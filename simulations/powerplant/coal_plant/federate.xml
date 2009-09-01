@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+
+<federate name="Coal Plant" system="coal_plant">
+  <description>
+    <p>a very simple coal plant. just outputs pollution at a steady rate.</p>
+  </description>
+
+<attributes>
+
+<attribute name="x"
+  varname="x"
+  label="X position"
+  type="integer"
+  min="0"
+  max="640"
+  default="30"
+  />
+
+  <attribute name="y"
+  varname="y"
+  label="Y position"
+  type="integer"
+  min="0"
+  max="480"
+  default="20"
+  />
+
+  <attribute name="generating_capacity" 
+  varname="generating_capacity" 
+  label="generating capacity (MW)" 
+  type="integer" 
+  min="0" 
+  max="100000" 
+  default="360" />
+  
+  <attribute name="conversion_efficiency" 
+  varname="conversion_efficiency" 
+  label="conversion efficiency (%)" 
+  type="integer" 
+  min="0" 
+  max="100" 
+  default="33" 
+  />
+  
+<!--  <attribute name="capital_cost" 
+  varname="capital_cost" 
+  label="station capital cost ($/MW)" 
+  type="integer" 
+  min="0" 
+  max="100000000" 
+  default="150000" />
+  
+  <attribute name="operating_cost" 
+  varname="operating_cost" 
+  label="station operating cost ($/MW/year)" 
+  type="integer" 
+  min="0" 
+  max="10000000" 
+  default="30000" /> -->
+  
+  <attribute name="fuel name"
+  varname="fuel_name"
+  label="Fuel Name"
+  type="string"
+  default="bituminous coal" />
+
+  <attribute name="fuel_heat_content"
+  varname="fuel_heat_content"
+  label="Fuel heat content (GJ/T) d"
+  type="integer"
+  min="0" max="10000"
+  default="30" />
+
+  <attribute name="CO2_emissions" 
+  varname="CO2_emissions"
+  label="CO2 emissions (kg/Ton)"
+  type="integer"
+  min="0"
+  max="100000"
+  default="3100" />
+
+  <attribute name="SO2_emissions" varname="SO2_emissions" label="SO2 emissions (kg/Ton)"
+  type="integer" min="0" max="100000" default="30" />
+
+  <attribute name="CO_emissions" varname="CO_emissions" label="CO emissions (kg/Ton)"
+  type="integer" min="0" max="100000" default="10" />
+
+  <attribute name="NO2_emissions" varname="NO2_emissions" label="NO2 emissions (kg/Ton)"
+  type="integer" min="0" max="100000" default="50" />
+
+  <attribute name="PM_emissions" varname="PM_emissions" label="PM emissions (kg/Ton)" type="integer" min="0" max="100000" default="120" />
+
+  <attribute name="AP_unit_name" varname="AP_unit_name" label="AP unit name" type="string" default="Combination" />
+
+  <attribute name="AP_cap_cost" varname="AP_cap_cost" label="AP capital cost" type="integer" default="60000" min="0" max="10000000" />
+
+  <attribute name="AP_op_cost" varname="AP_op_cost" label="AP operating cost" type="integer" min="0" max="1000000" default="20000" />
+
+  <attribute name="CO2_removal_efficiency" varname="CO2_removal_efficiency" type="float" min="0.0" max="100.0" default="0.0" label="CO2 removal efficiency (%)"/>
+  <attribute name="SO2_removal_efficiency" varname="SO2_removal_efficiency" type="float" min="0.0" max="100.0" default="90.0" label="SO2 removal efficiency (%)"/>
+  <attribute name="CO_removal_efficiency" varname="CO_removal_efficiency" type="float" min="0.0" max="100.0" default="0.0" label="CO removal efficiency (%)"/>
+  <attribute name="NO2_removal_efficiency" varname="NO2_removal_efficiency" type="float" min="0.0" max="100.0" default="80.0" label="NO2 removal efficiency (%)"/>
+  <attribute name="PM_removal_efficiency" varname="PM_removal_efficiency" type="float" min="0.0" max="100.0" default="99.5" label="PM removal efficiency (%)"/>
+  
+<!--  <attribute name="dummy_emissions" varname="dummy_emissions" type="float" min="0.0" max="100.0" default="0.003" label="dummy emissions"/> -->
+  
+</attributes>
+
+<handlers>
+<event type="tick" file="tick.py" />
+</handlers>
+
+</federate>

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<federate name="Sun" system="sun_energy">
+
+<description>
+<p>This federate models the effect of sunlight on ozone production constants. It is a simplified representation.</p>
+</description>
+
+<attributes>
+
+  <attribute name="local longitude" type="float" label="local_longitude"
+  description="The longitude at the point of interest, measured from Greenwich meridian." max="360.0" min="0.0"
+  default="0.0" varname="longitude" />
+
+  <attribute name="local latitude" type="float" label="local_latitude" 
+  description="The latitude as measured from the equator." max="90.0" 
+  min="-90.0" default="0.0" varname="latitude" />
+
+  <attribute name="local standard time" type="float" label="Local standard time" 
+  description="The local decimal time, ranges 0.00 to 23.99." max="23.99" min="0.0" default="0.00"
+  varname="StandardTime" />
+
+
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py" />
+  <event type='tick' file="tick.py" />
+</handlers>
+
+
+</federate>

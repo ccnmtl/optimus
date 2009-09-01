@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<simulation name="traffic and pollution">
+  <description>
+    a simulation of a system involving traffic
+    that produces pollution which diffuses in the
+    atmosphere. it includes both cars and stationary
+    pollution producers. the movement of the cars is 
+    controlled by traffic lights on a regular schedule.
+  </description>
+
+  <federates>
+    <!-- the order that the federates are listed in is important -->
+    <federate system="wind"      file="wind/federate.xml"/>
+    <federate system="pollution" file="pollution/federate.xml"/>
+    <federate system="stats"     file="stats/federate.xml"/>
+    <federate system="streets"   file="streets/federate.xml"/>
+    <federate system="cars"      file="cars/federate.xml"/>
+</federates>
+</simulation>

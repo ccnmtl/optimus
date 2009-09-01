@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+        <federate name="reds" system="reds">
+        <description></description>
+        <attributes>
+       <attribute name="consumption" varname="consumption" type="integer" label="units of sugar consumed each tick"
+            min="0" max="256" default="10" />
+       <attribute name="start_health" varname="start_health" type="integer" label="starting health"
+            min="0" max="256" default="10" />
+</attributes>
+<handlers>
+       <event type="tick" file="tick.py" />
+       <event type="init" file="init.py" />
+       <event type="display" file="display.py" />
+       <event type="unload" file="unload.py" />
+</handlers>
+<bindings>
+    <variable localname="sugar" system="sugar" variable="ctplus1"
+            default="zeros((160,120))" />
+</bindings>
+</federate>

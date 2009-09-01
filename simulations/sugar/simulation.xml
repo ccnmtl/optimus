@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<simulation name="sugar">
+  <federates>
+    <federate system="sugar" file="sugar/federate.xml"/>
+    <federate system="reds" file="reds/federate.xml"/>
+  </federates>
+  <description>
+    there is a landscape of sugar which grows back at a fixed rate.
+        litle 'reds' move about on the landscape eating the sugar. the reds
+        consume sugar from their location until it is gone. if a red is
+        malnourished, it expands to the neighbor with the most sugar.
+  </description>
+</simulation>

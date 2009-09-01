@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<federate name="factory" system="factory">
+<attributes>
+  <attribute name="factories_file" varname="filename" type="text" default="factories.csv"/>
+</attributes>
+<handlers>
+  <event type="init" file="init.py"/>
+  <event type="tick" file="tick.py"/>
+</handlers>
+</federate>

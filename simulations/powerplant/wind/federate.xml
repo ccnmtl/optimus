@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<federate name="Wind" system="wind">
+
+<description>
+<p>This federate simulates wind. currently it doesn't do anything
+fancy. it is just wind in a constant direction with a constant strength.</p>
+</description>
+
+<attributes>
+  <attribute name="dx" varname="dx" label="x-velocity (m/s)" type="float"
+   min="-100.0" max="100.0" default="2.0" />
+
+  <attribute name="dy" varname="dy" label="y-velocity (m/s)" type="float"
+   min="-100.0" max="100.0" default="1.0" />
+
+</attributes>
+<handlers/>
+
+</federate>

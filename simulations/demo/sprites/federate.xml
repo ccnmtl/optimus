@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<federate name="sprite test" system="spritetest" graphical="1">
+
+<description>
+<p>a federate for testing sprite functionality</p>
+</description>
+
+<attributes>
+  <attribute name="numsprites" varname="numsprites" label="number of
+    sprites" description="how many sprites to have in the federate" 
+    type="integer" default="30" min="0" max="30000" />
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py" />
+  <event type='tick' file="tick.py" />
+</handlers>
+
+
+</federate>

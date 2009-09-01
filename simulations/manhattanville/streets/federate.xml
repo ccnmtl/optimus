@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<federate name="streets" system="streets">
+<attributes>
+  <attribute name="nodes file" varname="nodes_file"
+      type="string" default="nodes.csv" label="nodes file (CSV)" />
+  <attribute name="segments file" varname="segments_file"
+      type="string" default="segments.csv" label="segments file (CSV)" />
+</attributes>
+<handlers>
+  <event type="init" file="init.py"/>
+  <event type="tick" file="tick.py"/>
+  <event type="unload" file="unload.py"/>
+  <event type="display" file="display.py"/>
+  <event type="mousedown" file="mousedown.py"/>
+  <event type="mouseup" file="mouseup.py"/>
+  <event type="mousemove" file="mousemove.py" />
+</handlers>
+</federate>

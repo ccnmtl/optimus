@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<simulation name="tutorial simulation">
+    <description>
+        pollution diffusion, wind, factories, and little green guys
+        that run away from pollution.
+    </description>
+
+    <federates>
+        <federate system="wind" file="wind/federate.xml"/>
+        <federate system="pollution" file="pollution/federate.xml"/>
+    </federates>
+</simulation>

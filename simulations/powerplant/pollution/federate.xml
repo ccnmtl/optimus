@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<federate name="Air Pollution" system="air_pollution">
+
+<description>
+<p>This federate simulates pollution in the air. It is a simplified representation.</p>
+</description>
+
+<attributes>
+
+  <attribute name="height" varname="h" label="mixing height"
+   default="20.0" min="0.0" max="10000.0" type="float" />
+
+  <attribute name="cell width" varname="dx" label="width of cell in m"
+  type="float" min="0" max="10000.0" default="8.0" />
+
+  <attribute name="cell height" varname="dy" label="height of cell in m"
+  type="float" min="0" max="10000.0" default="8.0" />
+
+  <attribute name="deposition velocity" varname="vd" label="deposition
+      velocity" type="float" min="0.0" max="10000.0" default="0.0" />
+
+  <attribute name="display every" type="integer" label="display every"
+    description="number of cycles between display updates" default="5"
+    varname="display_every" max="1000" min="0" />
+
+  <attribute name="diffusion_rate" type="float" label="diffusion rate (m^2/s)"
+     varname="diffusion_rate" max="5000.0" min="0.0" default="5" /> 
+
+  <attribute name="background_pm25" type="float" label="background Pm2.5 pollution (micrograms/m^3)" varname="background_pm25" max="100" min="0" default="10.0" />
+  <attribute name="background_pm10" type="float" label="background Pm10 pollution (micrograms/m^3)" varname="background_pm10" max="100" min="0" default="19.0" />
+  
+   <attribute name="data_dir" type="string" lable="directory to write data files to" varname="data_dir" default="pollution_data" />
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py" />
+  <event type='tick' file="tick.py" />
+  <event type="display" file="display.py"/>
+  <event type="emit_pollution" file="emit_pollution.py" />
+  <event type="unload" file="unload.py"/>
+  <event type="mousedown" file="mousedown.py" />
+</handlers>
+
+<bindings>
+  <variable localname="wind_x" system="wind" variable="dx" default="0.0"/>
+  <variable localname="wind_y" system="wind" variable="dy" default="0.0"/>
+</bindings>
+
+</federate>

@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<federate name="Cars" system="cars">
+
+<description>
+<p>This federate implements some cars that drive around on roads
+and emit pollution.</p>
+</description>
+
+<attributes>
+  <attribute name="numcars" varname="numcars" label="starting number of cars"
+      type="integer" min="0" max="30000" default="100" />
+  <attribute name="percent_trucks" varname="percent_trucks"
+      label="percentage trucks" type="integer" min="0" max="100"
+      default="30" />
+  <attribute name="maxvelocity" varname="max_velocity_mph" type="float"
+   label="maximum velocity (mph)" min="0.0" max="100.0" default="30.0"/>
+  <attribute name="slowdown probability" varname="slowdown_probability"
+   type="float" min="0.0" max="1.0" default="0.5" label="slowdown probability"/>
+
+   <attribute name="SO2_per_kg" varname="SO2_per_kg" label="SO2 (g) per kg of gasoline" type="float" min="0.0" max="10.0" default="0.55" />
+   <attribute name="PM10_per_kg" varname="PM10_per_kg" label="PM10 (g) per kg of gasoline" type="float" min="0.0" max="10.0" default="0.46" />
+   <attribute name="NOX_per_kg" varname="NOX_per_kg" label="NOX (g) per kg of gasoline" type="float" min="0.0" max="100.0" default="12.1" />
+   <attribute name="VOC_per_kg" varname="VOC_per_kg" label="VOC (g) per kg of gasoline" type="float" min="0.0" max="10.0" default="9.00" />
+   <attribute name="CO_per_kg" varname="CO_per_kg" label="CO (g) per kg of gasoline" type="float" min="0.0" max="100.0" default="86.5" />
+     
+   <attribute name="fuel_efficiency" varname="fuel_efficiency" label="fuel efficiency (miles per gallon)" type="float" min="0.0" max="100.0" default="15.0" />
+
+  
+<!--
+  <attribute name="proportionPassengerCars" varname="passCars" label="proportion of passenger cars"
+    type="float" min="0" max="100" default="40" />
+  <attribute name="proportionLLDT" varname="LLDT" label="proportion of Light-Light Duty Trucks"
+    type="float" min="0" max="100" default="20" />
+  <attribute name="proportionLLDT" varname="LLDT" label="proportion of Light-Light Duty Trucks"
+    type="float" min="0" max="100" default="20" />
+  <attribute name="numbus" varname="numbus" label="number of buses"
+    type="integer" min="0" max="3000" default="100" />
+-->
+  <attribute name="cell length" varname="cell_length" label="length of cell (m)"
+    type="float" min="0" max="100.0" default="8.0" />
+
+
+  <attribute name="acceleration" varname="max_acceleration" type="float"
+   label="maximum acceleration (m/s^2)" min="0.0" max="5.0" default="0.2" />
+
+  <attribute name="color" varname="car_color" type="string" label="car color"
+   default="#000000" />
+
+  <attribute name="randomize_graph" varname="randomize_graph" type="boolean"
+   default="true" label="randomize path selection"/>
+
+  <attribute name="path weight" varname="path_weight" type="string" 
+   label="weigh paths by: " fixed="choice">
+    <allowed value="congestion" label="congestion"/>
+    <allowed value="distance" label="distance"/>
+    <allowed value="avspeed" label="average speed"/>
+  </attribute>
+
+  <attribute name="gasoline energy constant" varname="gasoline_energy_constant"
+   label="gasoline energy constant (J/l)" type="float" min="0.0" max="5.0e+8" 
+   default="3.5e+7" />
+
+<!--  <attribute name="efficiency" varname="efficiency" label="efficiency of engine * efficiency of train"
+   type="float" min="0.0" max="1.0" default="0.2" />
+  
+  <attribute name="drag coefficient" varname="drag_coefficient" label="drag coefficient for each car"
+   type="float" min="0.0" max="1.0" default=".35" />
+
+  <attribute name="area" varname="area" label="cross-sectional area of car (m^2)"
+  type="float" min="0.0" max="50.0" default="4.0" />
+
+  <attribute name="mass" varname="mass" label="mass of each car (kg)"
+  type="float" min="0.0" max="100000" default="2000"/>
+
+  <attribute name="rho air" varname="rho_air" label="rho_air (kg/m^3)"
+  type="float" default="1.25" min="0.0" max="100.0" />
+
+  <attribute name="mu" varname="mu" label="friction coefficient (mu)"
+  type="float" min="0.0" max="1.0" default=".7" />
+
+  <attribute name="rho gas" varname="rho_gas" label="density of gasoline (kg/l)"
+  type="float" default=".73" min="0.0" max="100.0" />
+
+  <attribute name="c ratio gasoline" varname="C_gasoline_ratio" label="mass of C per mass of gasoline"
+  type="float" default=".84" min="0.0" max="1.0" />
+
+  <attribute name="CO Standard" varname="CO_standard" label="standard of CO emission"
+   type="float" default="3.4" min="0.0" max="100.0" />
+
+  <attribute name="NOx Standard" varname="NOx_standard" label="standard of NOx emission" 
+   type="float" default="1.0" min="0.0" max="100.0"/>
+
+  <attribute name="PM Standard" varname="PM_standard" type="float" default=".08" min="0.0" max="100.0" 
+   label="standard of PM emission"/>
+
+  <attribute name="THC Standard" varname="THC_standard" type="float" default=".41" min="0.0" max="100.0" 
+   label="standard of THC emission"/> -->
+
+</attributes>
+
+<handlers>
+  <event type="init"                file="init.py"/>
+  <event type="tick"                file="tick.py"/> 
+  <event type="display"             file="display.py"/>
+  <event type="unload"              file="unload.py"/>
+  <event type="source_car"          file="source_car.py"/>
+  <event type="calculate_pollution" file="calculate_pollution.py"/>
+</handlers>
+
+<bindings>
+  <variable localname="num_segments" system="streets" variable="num_segments" default="0"/>
+  <variable localname="segment_lengths" system="streets" variable="segment_length" default="zeros(self.num_segments)"/>
+  <variable localname="segment_start_x" system="streets" variable="segment_start_x" default="zeros(self.num_segments)"/>
+  <variable localname="segment_end_x" system="streets" variable="segment_end_x" default="zeros(self.num_segments)"/>
+  <variable localname="segment_start_y" system="streets" variable="segment_start_y" default="zeros(self.num_segments)"/>
+  <variable localname="segment_end_y" system="streets" variable="segment_end_y" default="zeros(self.num_segments)"/>
+  <variable localname="segment_start" system="streets" variable="segment_start" default="zeros(self.num_segments)"/>
+  <variable localname="segment_end" system="streets" variable="segment_end" default="zeros(self.num_segments)"/>
+  <variable localname="node_x" system="streets" variable="node_x" default="[]"/>
+  <variable localname="node_y" system="streets" variable="node_y" default="[]"/>
+  <variable localname="sinks" system="streets" variable="sinks" default="[]"/>
+  <variable localname="sink_weights" system="streets" variable="sink_weights" default="[]"/>
+
+  <variable localname="leaving_edges" system="streets" variable="leaving_edge" default="ones(self.num_segments)"/>
+  <variable localname="street_graph" system="streets" variable="node_graph" default="{}"/>
+  <variable localname="nodes_to_streets" system="streets" variable="nodes_to_streets" default="{}"/>
+  <variable localname="congestion_graph" system="stats" variable="congestion_node_graph" default="{}"/>
+  <variable localname="lights" system="streets" variable="redlights" default="ones(self.num_segments)"/>
+
+</bindings>
+
+
+</federate>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+
+<federate name="verdes" system="verdes">
+
+<attributes>
+  <attribute name="number" varname="number" default="100" type="integer" min="0" max="1000" 
+	     label="number of verdes" />
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py"/>
+  <event type="tick" file="tick.py"/>
+  <event type="display" file="display.py"/>
+</handlers>
+
+<bindings>
+  <variable system="air_pollution" localname="pollution" variable="full" default="zeros((160,120))"/>
+</bindings>
+
+</federate>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<federate name="statistics collector" system="stats">
+<description>
+collects statistics about other federates.
+</description>
+
+<attributes />
+
+<handlers>
+  <event type="init" file="init.py"/>
+  <event type="tick" file="tick.py"/>
+</handlers>
+
+<bindings>
+  <variable localname="streets"          system="cars"      variable="streets"          default="[]"/>
+  <variable localname="cars"             system="cars"      variable="cars"             default="{}"/>
+  <variable localname="pollution"        system="pollution" variable="ctplus1"          default="[]"/>
+  <variable localname="node_graph"       system="streets"   variable="node_graph"       default="{}"/>
+  <variable localname="nodes_to_streets" system="streets"   variable="nodes_to_streets" default="{}"/>
+</bindings>
+
+</federate>

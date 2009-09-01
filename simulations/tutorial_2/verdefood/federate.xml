@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<federate name="verdefood" system="verdefood">
+
+<attributes>
+  <attribute name="number" varname="number" default="3" type="integer" min="0" max="1000" 
+	     label="number" />
+  <attribute name="initial energy tokens" varname="initial_tokens" default="50" type="integer" min="0" max="1000" 
+	     label="initial energy tokens" />
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py"/>
+  <event type="tick" file="tick.py"/>
+  
+</handlers>
+
+</federate>

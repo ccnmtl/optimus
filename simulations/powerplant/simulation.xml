@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<simulation name="power plant">
+  <description>
+  simple simulation with a power plant and a couple cars driving around it.
+  </description>
+
+  <federates>
+    <!-- the order that the federates are listed in is important -->
+    <federate system="wind"      file="wind/federate.xml"/>
+    <federate system="stats"     file="stats/federate.xml"/>
+    <federate system="streets"   file="streets/federate.xml"/>
+    <federate system="cars"      file="cars/federate.xml"/>
+    <federate system="coal_plant" file="coal_plant/federate.xml"/>
+    <federate system="pollution" file="pollution/federate.xml"/>
+</federates>
+</simulation>

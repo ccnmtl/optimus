@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<federate name="test federate 3" system="test3" graphical="1">
+
+<description>
+<p>a federate for testing</p>
+</description>
+
+<attributes>
+
+  <attribute name="growbackrate" type="integer" label="sugar growback rate"
+    description="the rate that sugar deposits replace themselves" default="1"
+    varname="sugar_growback_rate" max="10" min="0" />
+
+  <attribute name="display every" type="integer" label="display every"
+    description="number of cycles between display updates" default="5"
+    varname="display_every" max="1000" min="0" />
+
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py" />
+  <event type='tick' file="tick.py" />
+  <event type="sprite_over" file="sprite_over.py" />
+</handlers>
+
+
+</federate>

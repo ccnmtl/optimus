@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<simulation name="tutorial 2">
+    <federates>
+        <federate system="verdefood" file="verdefood/federate.xml"/>
+        <federate system="verde" file="verde/federate.xml"/>
+        <federate system="verdeeater" file="verdeeater/federate.xml"/>
+    </federates>
+</simulation>

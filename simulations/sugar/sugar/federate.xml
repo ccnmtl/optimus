@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="iso-8859-1" ?>
+<federate system="sugar" name="sugar">
+  <description>
+    
+  </description>
+  <handlers>
+    <event type="init" file="init.py"/>
+    <event type="tick" file="tick.py"/>
+    <event type="display" file="display.py"/>
+    <event type="sugar_eaten" file="sugar_eaten.py"/>
+    <event type="unload" file="unload.py"/>
+  </handlers>
+  <attributes>
+    <attribute max="256" name="growback_rate" min="0" default="1" varname="growback_rate" label="growback rate" type="integer"/>
+  </attributes>
+</federate>

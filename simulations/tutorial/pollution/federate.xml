@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<federate name="Air Pollution" system="air_pollution">
+
+<description>
+<p>This federate simulates pollution in the air. It is a simplified representation.</p>
+</description>
+
+<attributes>
+
+  <attribute name="height" varname="h" label="mixing height"
+   default="1000.0" min="0.0" max="10000.0" type="float" />
+
+  <attribute name="cell width" varname="dx" label="width of cell in m"
+  type="float" min="0" max="10000.0" default="50.0" />
+
+  <attribute name="cell height" varname="dy" label="height of cell in m"
+  type="float" min="0" max="10000.0" default="50.0" />
+
+  <attribute name="deposition velocity" varname="vd" label="deposition velocity" type="float" min="0.0" max="10000.0" default="0.1" />
+
+  <attribute name="display every" type="integer" label="display every"
+    description="number of cycles between display updates" default="5"
+    varname="display_every" max="1000" min="0" />
+
+  <attribute name="diffusion_rate" type="float" label="percentage of diffusion"
+     varname="diffusion_rate" max="1.0" min="0.0" default="0.20" /> 
+
+</attributes>
+
+<handlers>
+  <event type="init" file="init.py" />
+  <event type='tick' file="tick.py" />
+  <event type="display" file="display.py"/>
+  <event type="emit_pollution" file="emit_pollution.py" />
+  <event type="unload" file="unload.py"/>
+</handlers>
+
+<bindings>
+    <variable localname="wind_x" system="wind" variable="dy" default="0.0"/>
+    <variable localname="wind_y" system="wind" variable="dx" default="0.0"/>
+</bindings>
+
+</federate>

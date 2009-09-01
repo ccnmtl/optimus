@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<federate name="streets" system="streets">
+<attributes>
+  <attribute name="nodes file" varname="nodes_file"
+  type="string" default="manhattan_nodes.csv" label="nodes file (CSV)" />
+  <attribute name="segments file" varname="segments_file"
+  type="string" default="manhattan_segments.csv" label="segments file (CSV)" />
+  <attribute name="sources file" varname="sources_file" type="string"
+  default="sources.csv" label="sources file (CSV)" />
+  <attribute name="sinks file" varname="sinks_file" type="string" default="sinks.csv" 
+  label="sinks file (CSV)" />
+  <attribute name="lights file" varname="lights_file" type='string' default="manhattan_lights.csv" 
+  label="lights schedule file (CSV)" />
+</attributes>
+<handlers>
+  <event type="init" file="init.py"/>
+  <event type="tick" file="tick.py"/>
+  <event type="unload" file="unload.py"/>
+  <event type="display" file="display.py"/>
+  <event type="mousedown" file="mousedown.py"/>
+  <event type="mouseup" file="mouseup.py"/>
+  <event type="mousemove" file="mousemove.py" />
+</handlers>
+</federate>
