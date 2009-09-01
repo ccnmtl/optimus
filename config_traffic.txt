@@ -1,0 +1,5 @@
+file:simulations/traffic/wind/federate.xml
+file:simulations/traffic/pollution/federate.xml
+file:simulations/traffic/stats/federate.xml
+file:simulations/traffic/streets/federate.xml
+file:simulations/traffic/cars/federate.xml

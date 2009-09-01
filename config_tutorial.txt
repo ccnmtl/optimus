@@ -1,0 +1,4 @@
+file:simulations/tutorial_completed/wind/federate.xml
+file:simulations/tutorial_completed/pollution/federate.xml
+file:simulations/tutorial_completed/factory/federate.xml
+file:simulations/tutorial_completed/verdes/federate.xml

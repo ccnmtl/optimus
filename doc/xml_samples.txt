@@ -1,0 +1,68 @@
+here are examples of the basic structure of some of the xml formats
+that optimus uses to store data. none of them are really implemented,
+and they are all subject to change. they are just provided to give you
+an idea of how things will fit together.
+
+
+example of xml for defining a Simulation, which is basically a named
+grouping of federates: 
+
+-----------
+<?xml version="1.0"?>
+<simulation name="traffic and pollution">
+  <description>
+    a simulation of a system involving traffic
+    that produces pollution which diffuses in the
+    atmosphere. it includes both cars and stationary
+    pollution producers. the movement of the cars is 
+    controlled by traffic lights on a regular schedule.
+  </description>
+
+  <federates>
+    <!-- the order that the federates are listed in is important -->
+    <federate system="roads"     file="roads.xml"/>
+    <federate system="lights"    file="lights.xml"/>
+    <federate system="smoggers"  file="smoggers.xml"/>
+    <federate system="traffic"   file="traffic.xml"/>
+    <federate system="wind"      file="wind.xml"/>
+    <federate system="pollution" file="pollution.xml"/>
+  </federates>
+
+</simulation>
+-----------
+
+example of xml for defining a Scenario
+
+-----------
+<?xml version="1.0"?>
+<scenario name="exercise 1" simulation="traffic and pollution">
+   <description>
+      traffic and pollution model with no stationary smoggers,
+      30 cars and a system of roads and traffic lights for a 
+      small fictional town. students are encouraged to adjust
+      the timing ratio for the traffic lights to see how it 
+      affects air pollution levels.
+   </description>
+
+   <!-- masks override the attributes of federates in the 
+        scenario. any parameters specified in the mask will
+        override the corresponding parameter for the corresponding
+        attribute from the federate that implements that mask's system
+    -->
+   <masks>
+         <mask system="roads" varname="road_def_file"
+             value="exercise1_roads.dat" editable="no" />
+         <mask system="lights" varname="light_placement_data_file"
+             value="exercise2_lights.dat" editable="no" />
+         <mask system="lights" varname="timing_ratio"
+             value="3" min="0" max="100" editable="yes" />
+         <mask system="smoggers" varname="num_smoggers" value="0"
+             editable="no" />
+         <mask system="traffic" varname="num_cars" value="30"
+             editable="no"/>
+	 <mask system="traffic" varname="starting_positions_file"
+             value="exercise1_cars.dat" editable="no" />
+   </masks>
+
+</scenario>
+

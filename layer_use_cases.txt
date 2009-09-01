@@ -1,0 +1,16 @@
+cows layer says "give me the vegetation density at location (x,y)"
+
+     vegetation_layer = organizer.get_layer("vegetation")
+     vd = vegetation_layer.get_at("veg_density",x,y)
+
+pollution layer says "give me the number of cars in the region (x1,y1,x2,y2)"
+
+     traffic_layer = organizer.get_layer("traffic")
+     cars = traffic_layer.get_in_region("car_count",x1,y1,x2,y2)
+
+ground layer says "send Earthquake event to buildings layer at location (x,y) with parameters (a,b,c..)"
+
+     earthquake = new Earthquake_Event(magnitude = 6.5)
+     organizer.global_event(event = earthquake,
+			    coords = (x,y))
+

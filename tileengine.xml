@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet href="/xsl/docbook/ccnmtl/docbook.xsl" type="text/xsl"?>
+
+<book>
+<bookinfo>
+<title>OPTIMUS TileEngine</title>
+<authorgroup>
+<author><firstname>Eric</firstname> <surname>Mattes</surname>
+</author>
+</authorgroup>
+
+<revhistory>
+<revision>
+    <revnumber>1.1</revnumber>
+    <date>2002-1-29</date>
+    <authorinitials>EHM</authorinitials>
+    <revremark>revised some technical details</revremark>
+</revision>
+<revision>
+    <revnumber>1.0</revnumber>
+    <date>2002-1-24</date>
+    <authorinitials>EHM</authorinitials>
+    <revremark>first draft specification</revremark>
+</revision>
+</revhistory>
+</bookinfo>
+<chapter id="summary">
+<title>Summary</title>
+
+<para>The TileEngine's purpose is to display the simulation in the form of an overhead orthographic view of a 2d grid surface. Each cell in the grid can be filled with any one solid color, and cells can be different colors. The grid size is arbitrary, as is the size of each cell.</para>
+
+<para>At federate-load-time, the federate may register itself with the TileEngine class in order to declare that it plans on drawing graphics. After every tick of the simulation, the TileEngine checks the federate's gridColors array so it can draw the cells of the grid like the federate has specified. The order in which federates declare themselves is the order in which the grid is painted. However, to allow multiple federates to draw on the same cell, each color may include an alpha value so that it will blend with the color already on the grid.</para>
+
+</chapter>
+
+<chapter id="tech">
+<title>A Bit More Technical...</title>
+
+<para>The structure of the gridColors array is as follows. The arrary mimics a 2d array. To get the (x,y) coord, access the (x*gridX + y) element. Each element contains a two-element list consisting of an 8-bit hex RGB color string of the form "#rrggbb", and a decimal number ranging from 0.0 to 1.0. The RGB color string must be exactly 9 characters long, including the leading '#'. The decimal value represents the opacity of the color.</para>
+
+<para>The color of a grid cell is determined as follows. The grid is initially filled with an arbitrary background color which is passed to the TileEngine upon initialization (or a default value). Each federate which is registered with the TileEngine is queried (in order of registration) for the color and opacity of that cell. After each query, the specified color is blended with the current color of the cell using the specified alpha value. The resulting color is then considered to be the color of the cell for the next query (or for the final result). After all federates have been queried, the canvas is redrawn with the new colors.</para>
+
+</chapter>
+
+
+</book>

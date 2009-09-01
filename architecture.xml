@@ -1,0 +1,270 @@
+<?xml version="1.0"?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet href="/xsl/docbook/ccnmtl/docbook.xsl" type="text/xsl"?>
+
+<book>
+<bookinfo>
+<title>OPTIMUS Architecture</title>
+<authorgroup>
+<author><firstname>Anders</firstname> <surname>Pearson</surname>
+</author>
+</authorgroup>
+
+<revhistory>
+<revision>
+    <revnumber>1.2</revnumber>
+    <date>2002-12-10</date>
+    <authorinitials>anders</authorinitials>
+    <revremark>rough first draft completed.</revremark>
+</revision>
+
+<revision>
+    <revnumber>1.1</revnumber>
+    <date>2002-12-05</date>
+    <authorinitials>anders</authorinitials>
+    <revremark>started writing</revremark>
+</revision>
+</revhistory>
+</bookinfo>
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>This document describes the proposed architecture for the
+OPTIMUS simulation framework.</para>
+
+</chapter>
+<chapter id="goals"><title>Goals of the Architecture</title>
+
+<simplelist>
+<listitem>easy integration of different simulations and different types
+of simulations</listitem>
+<listitem>ability to reuse simulation components in different macro simulations</listitem>
+<listitem>encapsulation of simulation components. modifying one component
+shouldn't break other components that are being used in the same simulation.</listitem>
+<listitem>evolvability. we don't expect to get everything perfect
+on the first try but we don't want to have to completely scratch the
+entire design to add new functionality later on.</listitem>
+</simplelist>
+
+</chapter>
+
+<chapter id="overview"><title>Overview</title>
+
+<para>OPTIMUS operates on simulation Federates. each Federate can be viewed
+as a simulation on its own (although potentially useless without the 
+presence of other Federates). These Federates may be implemented in any
+manner as long as they conform to a specific interface. Implementing
+this interface allows the Federates to communicate with each other reliably.
+</para>
+
+<para>The Organizer component handles the communication between Federates.
+When Federates are added to the simulation, they register themselves with
+the Organizer. The organizer then acts as an intermediate for all
+communication between the layers. It also handles additional bookkeeping
+functionality like sending clock Tick events to the appropriate layers.</para>
+
+<para>A TileEngine and a Controller provide the interface between
+the simulation and the user. the TileEngine provides functionality 
+for displaying the simulation data and the Controller handles runtime
+configuration (ie, changing parameters for different layers and allowing the user
+to manipulate things in real-time).</para>
+
+<graphic width="696" height="431" fileref="optimus_overview.png"/>
+
+<para>As much as possible, OPTIMUS follows a <ulink url="http://www.cs.indiana.edu/~cbaray/projects/mvc.html">Model-View-Controller
+design pattern</ulink>. The Federates and Organizer implement the Model,
+the TileEngine implements the View and the Controller implments
+the Controller.</para>
+
+<para>[maybe this paragraph belongs in a different document] Federates will be specified in XML (with embedded or linked python
+for the logic). OPTIMUS will load the Federates the user specifies
+by parsing their XML files and dynamically building Federate objects 
+from the data in the files. an example of what this Federate XML file
+may roughly look like is <ulink url="federate.txt">here</ulink>.
+specifying the Federates in XML will allow the maximum amount of book-keeping
+code (the parts that handle the mechanics of registering with the Organizer
+and other boilerplate stuff) to be factored out. It should also make
+later GUI tools for creating Federates easier to develop.
+</para>
+
+</chapter>
+
+<chapter><title>Federates</title>
+
+<para>The primary components of OPTIMUS are Federates. Federates
+encompass the logic of a particular simulation system. The internals
+of a Federate may be implemented in whatever manner is most
+appropriate for the system that the Federate is simulating. They may
+be Cellular Automata, Agent based models, network flow models, or any
+other model. Federates are the part of OPTIMUS that will mostly be
+written by Engineering students and researchers rather than by OPTIMUS
+developers.</para>
+
+<para>The main restriction on Federates is that they must all conform
+to a minimal interface. This interface allows Federates to be plugged
+into OPTIMUS and to communicate with other Federates in a consistent
+manner. Authors of one Federate won't have to know anything about the
+internals of other Federates in the system. This will probably be
+implemented by providing and Abstract Federate class that Federate authors
+can simply subclass and override the appropriate methods of.</para>
+
+<para>When a Federate is loaded into the OPTIMUS environment 
+(preferably at runtime), it registers itself. During this registration
+process, the Federate gives the environment information about
+what system the Federate implements, what events it handles, what
+parameters may be changed by the user, and what other Federates it
+expects to be present (or, more accurately, what other systems it
+expects to have represented in the environment by other Federates).
+</para>
+
+<para>NOTE: The term 'Federate' was taken from the HLA 1 specification
+to replace other considered terms like 'Layer', 'Simulation', or
+'Subsystem'.  'Federate' was used specifically because the word
+doesn't carry as much semantic baggage. Eg, 'Layer' implies a certain
+spatial relationship that really is not present in the OPTIMUS
+architecture.</para>
+
+</chapter>
+
+<chapter><title>Organizer</title>
+
+<para>Much as the name suggests, the Organizer is the component that ties all of the Federates
+in a Simulation together. </para>
+
+<para>The Organizer is responsible for knowing which Federates
+are present in the system, knowing which Federates are able to
+handle which Events, and knowing how to dispatch queries and Events
+to the Federates.</para>
+
+</chapter>
+
+<chapter><title>the Event model</title>
+<para>
+Federates generally communicate with each other by issuing Events.
+OPTIMUS' Event model is similar to a typical GUI or window manager
+event model. An Event basically means "something important just happened!". 
+Events have a type ("Earthquake","pipe burst","new building added", etc.)
+and a collection of parameters specific to that occurrence of the Event
+(eg, an "Earthquake" event may have 'epicenter' and 'intensity' parameters
+associated with it).</para>
+
+
+<para>
+Federates register event handlers with the Organizer
+when they are first loaded. When a Federate issues an Event, the
+Organizer will then trigger the event handlers of all Federates that
+registered handlers for that particular type of event. The previously
+registered event handler method is then called with an Event object
+as an argument. the Event object includes all the parameters associated
+with the event.
+</para>
+
+<para>
+Which Events exist and what parameters are associated with them
+(along with what the parameters are named, units of the parameters,
+etc.) are not specified in the first version of the OPTIMUS architecture.
+For the first version, developers will just have to come up with
+their own conventions. for later versions, we may come up with
+something more formal.
+</para>
+
+<para>
+
+Similar to Events are queries. Queries are the other protocol for
+communication between Federates. Where an Event signifies that
+something has happened, a query is just a request for some
+information. There are (currently) two types of queries: point and
+region. A query of either type must also specify the attribute that is
+being requested. A typical query would be a car Agent in a 'cars'
+Federate requesting the state of a traffic light from the 'traffic
+lights' Federate. Another query might be the 'air pollution' system
+requesting the number of cars within a given region of the 'cars'
+system. The trick with queries is handling the impedence mismatch
+between CA and Agent type systems and between systems with different
+grid sizes. A CA Federate must be able to respond to a request for the
+value at a given point (probably by simply calculating which cell that point
+lies in and returning the value for the cell) and an Agent system (which
+would typically be dealing with x,y coordinates) needs to be able to
+aggregate values over regions (either summing or averaging over the Agents
+in the region as appropriate). 
+
+</para>
+
+
+</chapter>
+
+<chapter><title>TileEngine</title>
+
+<para>The TileEngine handles the display of the various simulation
+Elements. It should handle scaling the display and toggling different
+types of views in a manner that is independent from the implementation
+of the Federates.
+</para>
+
+<para>Federates are expected to provide the TileEngine with the
+data it needs to display and with hints on exactly how the data
+should be displayed (colormaps, images for tiles, etc.)</para>
+
+</chapter>
+
+<chapter><title>Controller</title>
+
+<para>The Controller provides an interface for the user to change
+configurable attributes of different Federates. Eg, the user could
+change the amount of pollution a car produces, the maximum speed
+of cars, the timing of stoplights, the diffusion rate of gases in
+the atmosphere, etc. Federates are expected to specify what attributes
+they have that may be editted through the controller along with other
+necessary information (default values, data types, minimum and maximum
+values, etc) for automatically building the GUI forms.</para>
+
+</chapter>
+
+<chapter id="coordinates"><title>Coordinate Systems and Units</title>
+
+<para>One important aspect of OPTIMUS must be a mechanism for 
+standardizing coordinate systems and units, particularly for spatial
+models and time. A Federate that operates on a second by second basis
+must be able to interoperate with another Federate that operates
+on hourly or monthly time steps. Similarly, Federates that model
+behavior with the granularity of city blocks must be able to 
+interoperate with Federates that work at the global or building level. 
+obviously for radically different scales, efficiency and usefulness cannot be guaranteed, 
+but the architecture shouldn't be the limiting factor.</para>
+
+<para> For some kinds of units (intensity of earthquakes, gas
+diffusion constants, etc) it is probably sufficient to let the
+implementors of the Federates maintain their own conventions. However,
+for time and distance/location, it will be beneficial if OPTIMUS
+strictly controls how they are specified and communicated.
+</para>
+
+<para>For distances, units must be included and all distances should
+be in the metric system. A standard coordinate system should be used
+for specifying location. the TileEngine should be the only component
+of the system that needs to make conversions from that standard
+coordinate system to pixels on the screen so pixels should not be used
+anywhere else.  Times should be specified in seconds or the units must
+be included.</para>
+
+</chapter>
+
+<chapter id="status"><title>Status Summary</title>
+
+<para>This section includes notes on what parts of the architecture
+are considered incomplete, what parts are most likely to change in 
+the near future, and what parts may be considered inelegant but with no
+better solution evident. Hopefully, this section will shrink
+as the architecture evolves.</para>
+
+<para>Foremost is the TileEngine and how Federates will actually
+go about controlling their display. I just don't have enough experience
+with graphics programming to know exactly what kind of hooks must be 
+present and where different kinds of functionality should be implemented.
+For the time being, i'm just not specifying most of this, leaving it
+up to the implementor to worry about. Input from Don could be very helpful
+here.</para>
+
+</chapter>
+
+</book>

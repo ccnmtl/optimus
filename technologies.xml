@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<?cocoon-process type="xslt"?>
+<?xml-stylesheet href="/xsl/docbook/ccnmtl/docbook.xsl" type="text/xsl"?>
+
+<book>
+<bookinfo>
+<title>OPTIMUS Technologies</title>
+<authorgroup>
+<author><firstname>Anders</firstname> <surname>Pearson</surname>
+</author>
+</authorgroup>
+
+<revhistory>
+
+<revision>
+    <revnumber>1.1</revnumber>
+    <date>2002-12-04</date>
+    <authorinitials>anders</authorinitials>
+    <revremark>started writing</revremark>
+</revision>
+</revhistory>
+</bookinfo>
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>This document includes links to technologies being considered or
+used for OPTIMUS including brief summaries and analysis of how useful
+the technology may be for OPTIMUS, what strengths or weaknesses may
+make the technology particularly suitable or unsuitable for our
+use, etc.</para>
+</chapter>
+
+<chapter id="python"><title>Python</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.python.org/">main python site (python.org)</ulink></listitem>
+<listitem><ulink url="http://www.python.org/download">python download page</ulink></listitem>
+<listitem><ulink url="http://www.python.org/doc/">main documentation page</ulink></listitem>
+<listitem><ulink url="http://www.python.org/doc/current/tut/tut.html">official tutorial</ulink></listitem>
+<listitem><ulink url="http://www.python.org/doc/current/ref/ref.html">language reference</ulink></listitem>
+<listitem><ulink url="http://www.python.org/doc/current/lib/lib.html">library reference</ulink></listitem>
+<listitem><ulink url="http://www.diveintopython.org/">dive into python: a python tutorial for people with prior programming experience</ulink></listitem>
+<listitem><ulink url="http://www.ibiblio.org/obp/thinkCSpy/">How to Think Like a Computer Scientist: introduction to programming using python</ulink></listitem>
+</orderedlist>
+</sect1>
+
+<sect1><title>summary</title>
+<para>Python is a scripting language designed to be powerful, 
+easy to use, portable, and easy to extend and integrate with other
+languages. It has advanced Object Oriented, procedural and functional
+programming features and a large and growing user community.</para>
+</sect1>
+</chapter>
+
+<chapter id="swig"><title>SWIG</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.swig.org/">swig.org</ulink></listitem>
+<listitem><ulink url="http://www.swig.org/doc.html">swig documentation</ulink></listitem>
+<listitem><ulink url="http://www.linuxgazette.com/issue49/pramode.html">Using SWIG to interface scripting languages with C/C++</ulink> (a simple tutorial)</listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+
+<para>SWIG (Simplified Wrapper and Interface Generator) is a software development tool that connects programs
+written in C and C++ with a variety of high-level programming
+languages. SWIG is primarily used with common scripting languages such
+as Perl, Python, Tcl/Tk, Ruby, Guile and MzScheme, however the list of
+supported languages also includes non-scripting languages such as Java
+and OCAML. SWIG is most commonly used to create high-level interpreted
+programming environments, user interfaces, and as a tool for testing
+and prototyping C/C++ software.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter id="numeric"><title>Numeric</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.pfdubois.com/numpy/">main page</ulink></listitem>
+<listitem><ulink url="http://sourceforge.net/projects/numpy">sourceforge page</ulink></listitem>
+<listitem><ulink url="http://starship.python.net/~da/numtut/">Numeric Tutorial</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para>Numerical Python adds a fast, compact, multidimensional array language facility to Python.</para>
+</sect1>
+</chapter>
+
+<chapter id="pil"><title>Python Imaging Library</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.pythonware.com/products/pil/">Python Imaging Library</ulink></listitem>
+<listitem><ulink url="http://www.pythonware.com/library/pil/handbook/index.htm">Python Imaging Library Handbook</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+
+<para>The Python Imaging Library (PIL) adds image processing
+capabilities to your Python interpreter. This library supports many
+file formats, and provides powerful image processing and graphics
+capabilities.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter id="water"><title>Water</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.waterlang.org/">Water lang.org</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+
+<para>It is an open, object-oriented language designed to simplify the
+creation of new Web services. Water is extremely flexible and adheres
+to a "Learn Once, Use Everywhere" philosophy where data, logic, and
+presentation have a uniform representation. Water leverages your
+existing investment in processes, tools and platforms, and lets you
+incrementally adopt a Web service architecture. A thin-client
+development environment is freely available and services are easily
+deployed on a standard industry platform.</para>
+
+</sect1>
+<sect1><title>analysis</title>
+
+<para>AP - my first impression is that Water is intended primarily as a web
+programming language and platform, similar in scope to PHP/ASP/JSP but
+(in theory) better architected. we'll have to look closer to really decide
+whether it holds its own as a general purpose programming language (especially
+in competition with python). also, it looks like currently, almost no one
+is using it, so there isn't much of a community to draw from, and very
+few 3rd party tools and packages (eg, like python has PMW, Numeric, PIL, pygame, etc).</para>
+</sect1>
+
+</chapter>
+
+<chapter id="swarm"><title>SWARM</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.swarm.org/">swarm.org</ulink></listitem>
+</orderedlist>
+</sect1>
+</chapter>
+
+<chapter id="tk"><title>Tkinter</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.python.org/topics/tkinter/doc.html">python.org documentation</ulink></listitem>
+<listitem><ulink url="http://www.pythonware.com/library/tkinter/introduction/index.htm">An Introduction to Tkinter</ulink></listitem>
+</orderedlist>
+</sect1>
+</chapter>
+
+<chapter id="opengl"><title>OpenGL</title>
+<sect1><title>links</title>
+<orderedlist>
+
+<listitem><ulink url="http://www.opengl.org/">OpenGL.org</ulink></listitem>
+<listitem><ulink url="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/opengl/int01_2v58.asp">Microsoft's Introduction to OpenGL</ulink></listitem>
+<listitem><ulink url="http://pyopengl.sourceforge.net/">PyOpenGL: The python OpenGL binding</ulink></listitem>
+<listitem><ulink url="http://pyopengl.sourceforge.net/documentation/manual/">PyOpenGL Manual</ulink></listitem>
+</orderedlist>
+</sect1>
+</chapter>
+
+
+<chapter id="pmw"><title>Python Mega Widgets</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://pmw.sourceforge.net/">Pmw Python Mega Widgets</ulink></listitem>
+<listitem><ulink url="http://pmw.sourceforge.net/doc/index.html">PMW documentation</ulink></listitem>
+</orderedlist>
+</sect1>
+</chapter>
+
+<chapter id="pygame"><title>PyGame</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.pygame.org/">pygame.org</ulink></listitem>
+<listitem><ulink url="http://tamale.net/SDL_anim/pygame-0.9.1/docs/tut/ChimpLineByLine.html">line by line Chimp tutorial</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para>Pygame is a set of Python extension modules designed for writing games. The core of pygame is wrapped on top of the SDL library.</para>
+</sect1>
+</chapter>
+
+<chapter id="sdl"><title>SDL</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.libsdl.org/index.php">libSDL.org</ulink></listitem>
+<listitem><ulink url="http://www.libsdl.org/intro/toc.html">introduction to SDL</ulink></listitem>
+</orderedlist>
+</sect1>
+</chapter>
+
+<chapter id="sme"><title>Spatial Modeling Environment</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.uvm.edu/giee/SME3/">Spatial Modeling Environment</ulink></listitem>
+</orderedlist>
+</sect1>
+</chapter>
+
+<chapter id="repast"><title>Repast</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://repast.sourceforge.net/">repast</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para>
+The University of Chicago's Social Science Research Computing's RePast is a software framework for creating agent based simulations using the Java language (requires version Java 1.3 or greater). It provides a library of classes for creating, running, displaying and collecting data from an agent based simulation. In addition, RePast can take snapshots of running simulations, and create quicktime movies of simulations. RePast borrows much from the Swarm simulation toolkit and can properly be termed "Swarm-like." In addition, RePast includes such features as run-time model manipulation via gui widgets first found in the Ascape simulation toolkit.
+</para>
+</sect1>
+</chapter>
+
+<chapter id="ascape"><title>Ascape</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.brook.edu/dybdocroot/es/dynamics/models/ascape/">Ascape</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para> Ascape is a software framework for developing and analyzing agent-based models. In Ascape, agent objects exist within scapes; collections of agents such as arrays and lattices. These scapes are themselves agents, so that typical Ascape models are made up of "collections of collections" of agents. Scapes provide a context for agent interaction and sets of rules that govern agent behavior. Ascape manages graphical views and collection of statistics for scapes and provides mechanisms for controlling and altering parameters for scape models. </para>
+</sect1>
+</chapter>
+
+<chapter id="r"><title>R</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.r-project.org/">r-project.org</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+
+<para>R is `GNU S' - A language and environment for statistical computing and graphics. R is similar to the award-winning S system, which was developed at Bell Laboratories by John Chambers et al. It provides a wide variety of statistical and graphical techniques (linear and nonlinear modelling, statistical tests, time series analysis, classification, clustering, ...).</para>
+</sect1>
+</chapter>
+
+<chapter id="opendx"><title>OpenDX</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.opendx.org/">opendx.org</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para>OpenDX is a uniquely powerful, full-featured software package for the visualization of scientific, engineering and analytical data: Its open system design is built on a standard interface environments. And its sophisticated data model provides users with great flexibility in creating visualizations.</para>
+</sect1>
+</chapter>
+
+<chapter id="grass"><title>GRASS</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www3.baylor.edu/grass/">Official GRASS GIS homepage</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para> GRASS GIS (Geographic Resources Analysis Support System) is an open source, free software Geographical Information System (GIS) with raster, topological vector, image processing, and graphics production functionality that operates on various platforms through a graphical user interface and shell in X-Windows. It is released under GNU General Public License (GPL).</para>
+</sect1>
+</chapter>
+
+<chapter id="arcinfo"><title>ArcInfo</title>
+<sect1><title>links</title>
+<orderedlist>
+<listitem><ulink url="http://www.esri.com/software/arcgis/arcinfo/index.html">ArcInfo</ulink></listitem>
+</orderedlist>
+</sect1>
+<sect1><title>summary</title>
+<para>commercial GIS tool</para>
+</sect1>
+</chapter>
+
+</book>

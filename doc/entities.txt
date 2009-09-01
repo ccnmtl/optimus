@@ -1,0 +1,73 @@
+# this file is sort of pseudo SQL that describes
+# the major entities of OPTIMUS as if they were 
+# entities and relationships in an RDBMS.
+
+federates (
+	  identifier primary key,
+	  name,	     # name of the federate
+	  system,    # what system it implements
+	  description, # long description of the federate
+)
+
+attributes (
+	   identifier primary key,
+	   federate references federates (identifier),
+	   varname primary key, # name of python variable that the att
+	                        # should map to
+	   name,                # short name for attribute
+	   description,         # long description of what the attribute is
+	   type,                # boolean, float, integer, etc.
+	   default,             # default value of the attribute
+	   group,               # allows us to group attributes together in forms
+	   value,               # the actual current value of the attribute
+	   max,
+	   min,
+	   validate_code,       # python code that returns true if a value
+	                        # passed to it is valid for this attribute
+
+)
+
+# if an attribute is an enum type, this is where we store the
+# list of legal values
+attribute_values (
+		 attribute references attributes (identifier),
+		 value,
+		 label,
+		 cardinality
+)
+
+simulations (
+	    identifier primary key,
+	    name,
+	    description
+)
+
+federates_in_simulation (
+	   simulation references simulations (identifier),
+	   federate references federates (identifier)
+)
+
+scenario (
+	 identifier primary key,
+	 simulation references simulations (identifier),
+	 name,
+	 description
+)
+
+attribute_masks (
+		scenario,
+		attribute,
+		default,
+		max,
+		min,
+		value,
+		validate_code,
+)
+
+event_handlers (
+	       identifier primary key,
+	       federate references federates (identifier)
+	       class,            # event, query_point, or query_region
+	       event,		 # which event or parameter it handles
+	       code,		 # python code that does the real work
+)
