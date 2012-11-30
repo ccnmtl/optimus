@@ -1,0 +1,428 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>OPTIMUS Tutorial</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.font {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+-->
+</style>
+</head>
+
+<body>
+<div align="center"></div>
+<table width="600" border="0" align="left" cellpadding="20" class="font">
+  <tr> 
+    <td><div align="center"><font size="4">OPTIMUS TUTORIAL 1<br>
+        <font size="3">Open Teaching Platform for Teaching Integrated Modeling 
+        and Urban Simulation </font></font></div></td>
+  </tr>
+  <tr> 
+    <td> 
+      <p>Welcome to the first OPTIMUS tutorial. This tutorial (the first in 
+        a set) will walk you through the process of experimenting with OPTIMUS 
+        using a set of example files that you can modify. </p>
+      <h5>WHAT IS OPTIMUS?</h5>
+      <p>OPTIMUS is a simulation authoring environment developed in Python designed 
+        to give students with novice programming skills the chance to simulate 
+        spatial data problems relating to urban problems and the environment.</p>
+      <h5>ASSUMPTIONS</h5>
+      <p>The tutorial assumes you have already read about the OPTIMUS architecture 
+        (if not try <a href="http://www2.ccnmtl.columbia.edu/optimus/architecture.xml" target="_blank">here</a>). 
+      </p>
+      <p>It also assumes you already know a bit about the programming language 
+        Python (if not, try <a href="http://www2.ccnmtl.columbia.edu/optimus_wiki/node.pl?PythonResources" target="_blank">here</a>).</p>
+      <p>For now, OPTIMUS works on Windows and UNIX based machines only.</p>
+      <h5>ASSIGNMENT</h5>
+      <p>For this first tutorial, we&#8217;re going to look at and alter a simulation 
+        involving pollution-creating factories, where wind affects the pollution 
+        movement, and where there are agents known as verdes who do everything 
+        they can to move away from highly polluted areas to less polluted areas. 
+        Your job is to learn the basics of how OPTIMUS works through making simple 
+        code alterations to various elements of the simulation to achieve a variety 
+        of different states.</p>
+      <h5>GET THE FILES YOU NEED</h5>
+      <p>If necessary, visit the OPTIMUS website if you haven't done so already: 
+        <a href="http://ccnmtl.columbia.edu/projects/optimus/" target="_blank">http://ccnmtl.columbia.edu/projects/optimus/</a> 
+        and follow the instructions to download and install Python and OPTIMUS.</p>
+      <h5>RUN OPTIMUS</h5>
+      <p>Try running OPTIMUS by clicking on the Optimus.py file. It's located 
+        in a folder called 'optimus prototype'.</p>
+      <p>Go to the Simulations menu and select Load Simulation. Then navigate 
+        to the 'tutorial_completed' directory (folder) and select the file simulation.xml.</p>
+      <table width="600" border="0" align="center" cellpadding="5">
+        <tr>
+          <td height="196"><img src="tutorial_images/loadsim.jpg" width="226" height="104"></td>
+          <td><img src="tutorial_images/loadsim2.jpg" width="297" height="186"></td>
+        </tr>
+      </table>
+      <p align="left">Hit the Start button and see what you&#8217;ve got. You 
+        should see stationary factories emitting blobs of pollution and little 
+        green rectangles making a run for &#8216;cleaner&#8217;areas of the display.</p>
+      <p align="center"><br>
+        <img src="tutorial_images/verdes1.gif" width="400" height="347"></p>
+      <p>If the simulation appears to be working properly, proceed to the next 
+        section below.</p>
+      <p>If for some reason the simulation does not run, chances are something 
+        went wrong with the installation:</p>
+      <p><em>(The <strong>most common mistake</strong> in the installation is 
+        that students forget to copy the csv.pyd file to the right directory (Step 
+        6 in the instructions). We recommend returning to the installation instructions 
+        and checking to make sure you followed all the steps.)</em></p>
+      <h5>CHANGING THE WIND FEDERATE</h5>
+      <p>Based on the origin of the pollution you can see where the factories 
+        are located and you can probably guess the wind&#8217;s default vectors. 
+        Stop the simulation for a moment. Try the menu up top and edit the wind 
+        direction and check the result:</p>
+      <table width="600" border="0" align="center">
+        <tr> 
+          <td><div align="center"><img src="tutorial_images/windatt.gif" width="231" height="142"></div></td>
+          <td><div align="center"><img src="tutorial_images/windatt2.gif" width="194" height="106"></div></td>
+        </tr>
+      </table>
+      <p>Later we'll see how to adjust the starting conditions in the code.</p>
+      <h5>&nbsp;</h5>
+      <h5>EXPLORE THE FILE STRUCTURE</h5>
+      <p>Find your way to your OPTIMUS directory (or folder). Open it up.</p>
+      <p>Open the Simulations folder. In it you will see a directory called &#8216;tutorial_completed&#8217;. 
+        Open this directory.</p>
+      <h5>YOUR FIRST FEDERATE: FACTORY</h5>
+      <p>(what's a federate? see the <a href="http://www2.ccnmtl.columbia.edu/optimus/architecture.xml" target="_blank">architecture</a> 
+        document)</p>
+      <p> We&#8217;re going to start by looking at the Factory federate that will 
+        emit pollution following some pollution rules.</p>
+      <p>Open the factory directory and open the file called federate.xml using 
+        a text editor (Wordpad works pretty nicely on WIndows).</p>
+      <p>All federates in OPTIMUS begin with this heading where name and system 
+        are the name of the directory you created for the federate:</p>
+      <blockquote>
+        <p><font face="monospace">&lt;?xml version=&quot;1.0&quot;?&gt;<br>
+          &lt;federate name=&quot;factory&quot; system=&quot;factory&quot;&gt;</font></p>
+      </blockquote>
+      <p>The next section of a federate is its attributes. For factories, all 
+        we need to specify is where they are located. They are fixed in place, 
+        but rather than code the locations into the federate, we will have OPTIMUS 
+        refer to an external CVS file (CSV stands for Comma Separated Values) 
+        for the locations. Here is how it should look, where factories.csv is 
+        the external data file:</p>
+      <blockquote> 
+        <p><font face="monospace">&lt;attributes&gt;<br>
+          &lt;attribute name=&quot;factories_file&quot; varname=&quot;filename&quot; 
+          type=&quot;text&quot; default=&quot;factories.csv&quot;/&gt;<br>
+          &lt;/attributes&gt;</font></p>
+      </blockquote>
+      <p>Then if you look in the same directory where the federate.xml file is 
+        located, you will see another file called factories.csv which contains 
+        the x,y coordinates of each factory you want to include as well as how 
+        many units of pollution they will emit. The origin of the display is in 
+        the upper left so a x,y of 200, 400 would appear here:</p>
+      <p align="center"><img src="tutorial_images/display.gif" width="300" height="220"> 
+      </p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>Our completed CSV file looks like this, but you can change these to whatever 
+        numbers you like keeping in mind that the display size is 640 x 480.</p>
+      <blockquote> 
+        <p><font face="monospace">x,y,emission<br>
+          200,200,5.0<br>
+          300,300,5.0<br>
+          400,400,10.0<br>
+          100,100,5.0<br>
+          100,200,5.0<br>
+          10,300,5.0</font></p>
+      </blockquote>
+      <p>Now it&#8217;s time to return to our federate.xml file to check out the 
+        event handlers. We need two events to occur, the init.py and something 
+        called the tick.py. OPTIMUS is designed to run init.py files when federates 
+        are initially (get it? init &#8211; initially, ok) loaded in order to 
+        load in all the starting conditions for a given simulation. OPTIMUS also 
+        is preset to run tick.py files each time a time step passes (tick tick 
+        tick...asleep yet?) in order to update the simulation. So, in other words, 
+        init is where you go to make changes to starting conditions and tick is 
+        where you go to change what happens on each time step.</p>
+      <p>Handlers look like this and follow the attributes in the federate.xml 
+        file:</p>
+      <blockquote> 
+        <p><font face="monospace">&lt;handlers&gt;<br>
+          &lt;event type=&quot;init&quot; file=&quot;init.py&quot;/&gt;<br>
+          &lt;event type=&quot;tick&quot; file=&quot;tick.py&quot;/&gt;<br>
+          &lt;/handlers&gt;</font></p>
+      </blockquote>
+      <p>Then while we&#8217;re here, we finish off the file with a federate endtag:</p>
+      <blockquote> 
+        <p><font face="monospace">&lt;/federate&gt;</font></p>
+      </blockquote>
+      <p>So the complete federate.xml file for the factory federate should look 
+        like this:</p>
+      <blockquote> 
+        <p><font face="monospace">&lt;?xml version=&quot;1.0&quot;?&gt;<br>
+          &lt;federate name=&quot;factory&quot; system=&quot;factory&quot;&gt;<br>
+          &lt;attributes&gt;<br>
+          &lt;attribute name=&quot;factories_file&quot; varname=&quot;filename&quot; 
+          type=&quot;text&quot; default=&quot;factories.csv&quot;/&gt;<br>
+          &lt;/attributes&gt;<br>
+          &lt;handlers&gt;<br>
+          &lt;event type=&quot;init&quot; file=&quot;init.py&quot;/&gt;<br>
+          &lt;event type=&quot;tick&quot; file=&quot;tick.py&quot;/&gt;<br>
+          &lt;/handlers&gt;<br>
+          &lt;/federate&gt;</font></p>
+      </blockquote>
+      <p>Now let&#8217;s look at the init.py file which tells OPTIMUS what to 
+        do with the factory information that we have in our CSV file. PY files 
+        can also be opened with a text editor or with Python's GUI known as IDLE 
+        (Integrated DeveLopment Environment for those of you who must know). OR 
+        you can go back to the simulation and go to the Federates menu and load 
+        any event handler from any federate. Below is shown how to load the factory's 
+        init.py file.</p>
+      <table width="600" border="0" align="center" cellpadding="5">
+        <tr>
+          <td height="332"><img src="tutorial_images/eventhandlefact.gif" width="281" height="169"></td>
+          <td><div align="center"><img src="tutorial_images/edithandlerfact.gif" width="279" height="322"></div></td>
+        </tr>
+      </table>
+      <p>The first line of the init.py file loads the CSV data for the factory 
+        and telling OPTIMUS it should expect 2 integers for the x and y location 
+        of each factory and then a float (aka decimal number) for the emission 
+        units per unit time for each factory. The next 3 lines of the init file 
+        assign the csv data to 3 arrays (x,y, and emission) that will be picked 
+        up by the tick file for passing to the pollution federate for each time 
+        step.</p>
+      <blockquote> 
+        <p><font face="monospace">data = self.csv2numeric(self.filename,(int,int,float))</font></p>
+        <p><font face="monospace">self.x = data['x']<br>
+          self.y = data['y']<br>
+          self.emission = data['emission']</font></p>
+      </blockquote>
+      <p>Close the init.py file and open the tick.py file which looks like this 
+        (again you can load from the federate menu or find the file in the 'tutorial_completed' 
+        directory inside the factory directory:</p>
+      <blockquote> 
+        <p><font face="monospace">self.organizer.generate_event(OptimusEvent(&quot;emit_pollution&quot;,<br>
+          {'x' : self.x,<br>
+          'y' : self.y,<br>
+          'pollution' : self.emission}))</font></p>
+      </blockquote>
+      <p>For each timestep, OPTIMUS performs an event called &#8220;emit pollution&#8221; 
+        at each factory&#8217;s x,y point using the two arrays (x and y) from 
+        the init.py file with the pollution units stored in the emission array 
+        from the init.py file. The pollution federate we made picks this information 
+        up and uses it to calculate the pollution levels and dispersal taking 
+        wind into account (we&#8217;ll get to that in a minute).</p>
+      <p>Did you try changing the number of factories or their placement yet? 
+        If not, now is a good time. Be sure to run Optimus.py to make sure your 
+        changes work and take note of the result the simulation run. Can you place 
+        factories to get a more or less predictable result?</p>
+      <h5>CHANGE WIND FEDERATE STARTING DIRECTION </h5>
+      <p>Based on what you now know, take a look at the Wind federate files and 
+        see if you can change the starting values for the wind vectors.</p>
+      <p>(need a hint? find the federate.xml file in the Wind directory and look 
+        at the attributes.)</p>
+      <h5>MAKING SPATIALLY AWARE AGENT FEDERATES: VERDES</h5>
+      <p>To make things a little more exciting now we&#8217;re going to look at 
+        a federate that will examine the pollution being emitted and try to move 
+        away from it every timestep.</p>
+      <p>The most important piece in the verdes federate is the tick.py file as 
+        we are using some techniques in that handler that will allow each verde 
+        to &#8220;look&#8221; around and decide how to move away from any pollution 
+        that might be near it at every time step. Open tick.py for the verdes.</p>
+      <p>Again, either find the directory called &#8216;verdes&#8217; in the Tutorial 
+        directory and open the tick file or load it from the Federate menu using 
+        the event handler function.</p>
+      <p align="center"><img src="tutorial_images/tickverde.gif" width="300" height="191"></p>
+      <p>First we have some lines that will be covered when we get to the verdes 
+        display file (to make sure the array of the number of verdes matches what 
+        the user may have changed it to):</p>
+      <blockquote> 
+        <p><font face="monospace">if len(self.x) &gt; self.number:<br>
+          self.x = self.x[:self.number]<br>
+          self.y = self.y[:self.number]</font></p>
+      </blockquote>
+      <p>This will change the length of the arrays as needed and then in the display 
+        file the number of drawn dots will get adjusted if necessary.</p>
+      <p>This next piece each verde&#8217;s sight ability. This first section 
+        will give us blank arrays for the point where each verde is currently 
+        located (c) as well as one coordinate to its north (n), south (s), east 
+        (e) and west (w).</p>
+      <blockquote> 
+        <p><font face="monospace">c = zeros(self.number).astype('f')<br>
+          n = zeros(self.number).astype('f')<br>
+          s = zeros(self.number).astype('f')<br>
+          e = zeros(self.number).astype('f')<br>
+          w = zeros(self.number).astype('f')</font></p>
+      </blockquote>
+      <p>Now we have to pull in the data that each verde is &#8216;looking&#8217; 
+        for - the pollution emission from the pollution federate. Since the pollution 
+        dispersion is actually &frac14; the size of the display we have to scale 
+        it up, convert it into integers and then load all the numbers into our 
+        arrays from above:</p>
+      <blockquote> 
+        <p><font face="monospace">for i in range(self.number):<br>
+          x = self.x[i] / 4<br>
+          y = self.y[i] / 4<br>
+          x = int(x + 1)<br>
+          y = int(y + 1)<br>
+          c[i] = self.pollution[x,y]<br>
+          n[i] = self.pollution[x,y - 1]<br>
+          s[i] = self.pollution[x,y + 1]<br>
+          e[i] = self.pollution[x + 1,y]<br>
+          w[i] = self.pollution[x - 1,y]</font></p>
+      </blockquote>
+      <p> Now comes the fun part, where each verde is going to go through the 
+        following steps to determine which direction to move. Each verde will 
+        have to compare all 4 directions and its current spot:</p>
+      <blockquote> 
+        <p><font face="monospace">dx = zeros(self.number)</font><font face="monospace"><br>
+          dx = where(w &lt; c, dx - 1,dx)<br>
+          dx = where(e &lt; c, dx + 1,dx)<br>
+          dx = where(dx == 0, where(e &lt; w, dx + 1, dx - 1), dx)</font></p>
+        <p><font face="monospace">dy = zeros(self.number)<br>
+          </font><font face="monospace">dy = where(n &lt; c, dy - 1,dy)<br>
+          dy = where(s &lt; c, dy + 1,dy)<br>
+          </font><font face="monospace">dy = where(dy == 0, where(n &lt; s, dy 
+          - 1, dy + 1), dy)</font></p>
+      </blockquote>
+      <p>Then we add the result of the comparison to each verde&#8217;s current 
+        location:</p>
+      <blockquote> 
+        <p><font face="monospace">self.x = self.x + dx<br>
+          self.y = self.y + dy</font></p>
+      </blockquote>
+      <p>Then we add a caveat where if a verde is within one pixel of the edge 
+        of the display it will stay in the same place (so the &#8216;looking&#8217; 
+        function does not fail on the next tick and so verdes don&#8217;t move 
+        off the display):</p>
+      <blockquote> 
+        <p><font face="monospace">self.x = where(self.x &gt; 639, 639, self.x)<br>
+          self.x = where(self.x &lt; 1, 1, self.x)<br>
+          </font><font face="monospace">self.y = where(self.y &gt; 479, 479, self.y)<br>
+          self.y = where(self.y &lt; 1, 1, self.y)</font></p>
+      </blockquote>
+     
+      <p>This is the end of the tick.py file.</p>
+      <p>Now, instead of specifying where the verdes will start with a CSV as 
+        with the factories, we&#8217;re going to generate their locations randomly. 
+        First we need to decide how many there will be and list that as an attribute 
+        within our attribute tags within the federate file. Again, you can open 
+        this with Wordpad. It's in the folder called 'verdes' within the 'simulation_completed' 
+        folder. </p>
+      <blockquote> 
+        <p><font face="monospace">&lt;attribute name=&quot;number&quot; varname=&quot;number&quot; 
+          default=&quot;50&quot; type=&quot;int&quot; min=&quot;0&quot; max=&quot;1000&quot; 
+          label=&quot;number of verdes&quot;/&gt;</font></p>
+      </blockquote>
+      <p>As you can see, we&#8217;re starting with 50 verdes as a default but 
+        allowing anywhere from 0-1000. You can experiment with these numbers.</p>
+      <p>To generate the random locations, we&#8217;re going to use the init.py 
+        file, so we&#8217;ll need the following in as a handler (just as in the 
+        factory federate):</p>
+      <blockquote> 
+        <p><font face="monospace">&lt;event type=&quot;init&quot; file=&quot;init.py&quot;/&gt;</font></p>
+      </blockquote>
+      <p>To generate the random locations in the init.py file we&#8217;re going 
+        to use a Python library called MLab. This will generate 2 arrays of random 
+        numbers with as many numbers as we specified in our attribute above (in 
+        our case 50), one for the x coordinate and one for the y. Since the generated 
+        numbers are all between 0 and 1 we will (cleverly) multiple them all by 
+        the dimensions of our display to allow the equal possibility of verdes 
+        appearing anywhere on the display. Open the init.py file for the verdes 
+        (either through the Federates menu using edit event handler or find the 
+        file in the 'verdes' folder).</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <blockquote> 
+        <p><font face="monospace">import MLab<br>
+          self.x = MLab.rand(self.number) * 640<br>
+          self.y = MLab.rand(self.number) * 480</font></p>
+      </blockquote>
+      <p>(hey can you go back to the wind federate and make the wind vectors random?)</p>
+      <p>Now what is going to be displayed? Unlike our factories, where we could 
+        infer the location of the factories based on the pollution being emitted, 
+        we need to have OPTIMUS create a display element for each verde so we 
+        can watch them move since we have no reference points based on them emitting 
+        anything.</p>
+      <p>To do this we&#8217;re going to add a second piece to the init.py file 
+        that will plot each verde&#8217;s location using a dot:</p>
+      <blockquote> 
+        <p><font face="monospace">self.dots = []<br>
+          for i in range(self.number):<br>
+          self.dots.append(self.canvas.create_rectangle(self.x[i] - 1,self.y[i] 
+          - 1,self.x[i] + 1,self.y[i] + 1,fill=&quot;#006600&quot;,outline=&quot;#006600&quot;,width=0))</font></p>
+      </blockquote>
+      <p>So for every verde we&#8217;re going to use the canvas to create a rectangle 
+        around the location of each x,y one pixel in each direction and color 
+        it with the hex #006600 (aka green &#8211; hey! green &#8211; verde &#8211; 
+        get it?) You can change the <a href="http://hotwired.lycos.com/webmonkey/reference/color_codes/" target="_blank">color</a> 
+        if you like or the size of the verdes.</p>
+      <p>Now if you looked at the verdes' federate.xml file, you'll see an additional 
+        handler called the display.py. Let's check it out. First it checks to 
+        be sure the number of verdes has not been changed by the user and if it 
+        has, we need to decrease the arrays and delete the excess dots:</p>
+   
+      <blockquote> 
+        <p><font face="monospace">if len(self.dots) &gt; self.number:<br>
+          # clear them from the canvas<br>
+          for dot in self.dots[self.number:]:<br>
+          self.canvas.delete(dot)<br>
+          # resize the array<br>
+          self.dots = self.dots[:self.number]</font></p>
+     
+      </blockquote>
+      <p>(Remember, the tick.py file also checks the above to check the array 
+        length at every time step.)</p>
+      <p>The rest of the display.py file is a repeat of what we have in the init 
+        file to draw the tiny green rectangles (if you changed the size in the 
+        init.py file, you'll have to do it here too!):</p>
+      <blockquote> 
+        <p><font face="monospace">for i in range(self.number):<br>
+          self.canvas.coords(self.dots[i],self.x[i] - 1,self.y[i] -1,<br>
+          self.x[i] + 1,self.y[i] + 1)</font></p>
+      </blockquote>
+     
+     
+      <h5>RUN OPTIMUS</h5>
+      <p>Now that we've seen a few federates, let's try running Optimus.py again. 
+        Start the simulation and see what you&#8217;ve got...</p>
+      <p> Stop the simulation. Go to the menu and edit the number of verdes and 
+        run it again. Notice how you can increase them up to 1000 as we specified 
+        in the federate attribute. See if you can go back to the verdes federate.xml 
+        file and try making this maximum number MUCH larger and see what happens.</p>
+      <table width="600" border="0" align="center">
+        <tr> 
+          <td><div align="center"><img src="tutorial_images/verdemenu.gif" width="243" height="179"></div></td>
+          <td><div align="center"><img src="tutorial_images/verdesatt.gif" width="237" height="95"></div></td>
+        </tr>
+      </table>
+      <h5><br>
+        EXERCISES TO TRY (some are tougher than others)</h5>
+      <p>&#8226; make factories randomly located</p>
+      <p>&#8226; make the starting wind vectors randomized</p>
+      <p>&#8226; extend the range of the verdes' &quot;vision&quot; so they can 
+        see more than one cell in each direction.</p>
+      <p>&#8226; let the verdes look diagonally. ie, include ne, nw, se, and sw 
+        in the equation.</p>
+      <p>&#8226; let the verde's move more than one cell. perhaps make the distance 
+        they travel proportional to the pollution gradient. </p>
+      <p>&#8226; modify verde behavior so they won't bother moving unless a neighboring 
+        cell is better than their current location by a certain threshold amount 
+        (ie, make them lazy). </p>
+      <p>&#8226; modify verde behavior so not more than one can occupy a given 
+        cell.</p>
+      <p>&#8226; if east and west are both better than the current location but 
+        are equal to each other, pick one randomly instead of defaulting to one 
+        or the other as it currently does. (same for north/south too)</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+      <p><br>
+      </p>
+      <p><br>
+      </p></td>
+  </tr>
+</table>
+</body>
+</html>
