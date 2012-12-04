@@ -13,6 +13,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.css">
+       
     </head>
 		<body>
 		<!--[if lt IE 7]>
@@ -44,7 +45,7 @@
        	 			<h2>Project Resources</h2>
  			       	 	<div class="row-fluid">
        	 				<div class="span8">
-       	 				
+       	 				<i class="icon-file"></i>Optimus Tutorials
        	 				</div>
        	 				<div class="span4">
        	 				<button class="btn btn-primary" type="button">Download</button>
@@ -54,16 +55,12 @@
        	  		</div>
        	  	</div>
 		</div>
-		
-        <script src="js/bootstrap.js"></script>
-        <script src="js/jquery-1.8.2.min.js"></script>
-        
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
+		<script src="js/jquery-1.8.2.min.js"></script>        
+		<script src="js/bootstrap.js"></script>
+		 <script>
+        $(document).ready(function() {
+	      alert("document ready occurred!");
+		});        
         </script>
-    </body>
+</body>
 </html>
