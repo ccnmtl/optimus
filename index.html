@@ -13,7 +13,8 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/bootstrap-responsive.css">
-       
+       	<script src="js/jquery-1.8.2.min.js"></script>        
+		<script src="js/bootstrap.js"></script>
     </head>
 	<body data-spy="scroll" data-target=".nav">
 		<!--[if lt IE 7]>
@@ -23,57 +24,70 @@
        	 	<div class="row-fluid">
        	 		<div class="span12">
        	 			<div class="hero-unit">
+       	 			<a href="http://ccnmtl.columbia.edu" target="_blank"><img src="img/ccnmtl.png" class="pull-right" /></a>
        	 			<h1>OPTIMUS</h1>
        	 			<h4 class="muted">Open Platform for Teaching Integrated Modeling and Urban Simulation</h4>
       	 			</div>	
        	 		</div>
 	   	 	</div>
        	 	<div class="row-fluid">
-				<div class="span3">
-			   	 	<ul class="nav nav-pills nav-stacked">
-			 			<li class="active"><a href="#description">Project Description</a></li>
-       	 				<li><a href="#resources">Project Resources</a></li>
-       	 				<li><a href="#contact">Contact Information</a></li>
+       	 		<div class="span12">
+       	 			<ul class="nav nav-tabs">
+			 			<li class="active"><a href="#description" data-toggle="tab">Project Description</a></li>
+       	 				<li><a href="#resources" data-toggle="tab">Project Resources</a></li>
+       	 				<li><a href="https://github.com/ccnmtl/optimus" target="_blank">Github Repository</a></li>
 	   	 			</ul>
-	   	 		</div>
-       	 		<div class="span9">
-   	 				<section id="description">
-       	 			<h2>Project Description</h2>
+	  	 			<div class="tab-content">
+					<div class="tab-pane active" id="description">
+						<div class="span3">
+						<h4>Contact Information</h4>
+	   	 				<address class="muted">
+						<strong>Prof. Upmanu Lall</strong><br />
+						Professor, Civil Engineering and H. Krumb School of Mines<br />
+						Columbia University<br>
+						<a href="ula2@columbia.edu">ula2@columbia.edu</a>
+						</address>
+						</div>
+						<div class="span9">
+					<h3>Project Description</h3>
 					<p>The OPTIMUS (Open Platform for Teaching Integrated Modeling & Urban Simulation) project was a joint effort of the Department of Earth & Environmental Engineering, the Department of Civil Engineering & Engineering Mechanics and CCNMTL to create a platform for modeling urban and environmental systems. The OPTIMUS prototype provided educators with a new tool for teaching students about complex urban systems as well as fundamental modeling concepts and techniques.</p>
 					<p>Teachers used OPTIMUS to develop instructional scenarios that led students through a learning exercise that asked them to manipulate model parameters and then eventually generate their own system models. Examples included automobile traffic congestion and pollution as well as predator-prey dynamics. These models and methods introduced students to problem solving that emphasizes an integrated and systems approach. OPTIMUS also provided a gateway for researchers to study the behavior and performance of complex urban systems.</p>
 					<p>The platform's architecture accommodates various types of models including automata, agents, and networks. This versatility potentially supports addressing questions about spatial and temporal variation as well as system interdependencies that remain poorly understood. OPTIMUS was supported by the National Science Foundation.</p>		
-					</section>
-					
-       	 			<section id="resources">
-       	 			<h2>Project Resources</h2>
- 			       	 	<div class="row-fluid">
-       	 				<div class="span8">
-       	 				Optimus Tutorials
-       	 				</div>
-       	 				<div class="span4">
-       	 				<button class="btn btn-primary" type="button">Download</button>
-       	 				</div>
-       	 				</div>
-       	  			</section>
+					<p>Thanks to the following contributors to Optimus:</p>
+					<ul>
+					<li>Mike Garvin</li>	
+					<li>Don Hopkins</li>
+					<li>Ryan Kelsey</li>
+					<li>Manu Lall</li>
+					<li>Gregoire Landel</li>
+					<li>Eric Mattes</li>
+					<li>Zarina Mustapha</li>
+					<li>Anders Pearson</li>
+					<li>Cristian Rivano</li>
+					<li>David Van</li>
+					</ul>
+					</div>
+					</div>
+					<div class="tab-pane" id="resources">
+       	 			<h3>Project Resources</h3>
+       	 			<h4>Python Tutorials</h4>
+       	 			<p>
+       	 			<a href="http://docs.python.org/2/tutorial/index.html" target="_blank">The Official Python Tutorial</a><br>
+       	 			<a href="http://www.dickbaldwin.com/tocpyth.htm" target="_blank">Learn to Program Using Python</a><br>
+       	 			</p>
+       	 			
+       	 			<h4>Traffic Simulation Bibliography</h4>
+					<p>A Cellular Automaton model for freeway traffic by Kai Nagel and Michael Schreckenberg J. Phys. I France 2 (1992) 2221-2229 Abstract -- We introduce a stochastic discrete automaton model to simulate freeway traffic. Monte-Carlo simulations of the model show a transition from laminar traffic flow to start-stop-waves with increasing vehicle density, as is observed in real freeway traffic. For special cases analytical results can be obtained.</p>
+       	 			
+       	 			
+ 			       	</div>
+       	  		</div>
        	  		</div>
        	  		 		
        	  	</div>
-       	 	<div class="row-fluid">
-       	 		<div class="span12">
-	   	 			<a href="http://ccnmtl.columbia.edu" target="_blank"><img src="img/ccnmtl.png" class="pull-right" /></a>
-      	 		</div>
-       	 	</div>
        	 </div>
 	</div>
-		<script src="js/jquery-1.8.2.min.js"></script>        
-		<script src="js/bootstrap.js"></script>
-		 <script>
-        $(document).ready(function() {
-	 	    $('.nav li a').on('click', function() {
-   				 $(this).parent().parent().find('.active').removeClass('active');
- 				   $(this).parent().addClass('active');
-			});
-		});        
-        </script>
+
+
 </body>
 </html>
