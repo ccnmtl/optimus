@@ -15,25 +15,28 @@
         <link rel="stylesheet" href="css/bootstrap-responsive.css">
        
     </head>
-		<body>
+	<body data-spy="scroll" data-target=".nav">
 		<!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
         <div class="container">
        	 	<div class="row-fluid">
-       	 		<div class="span4">
+       	 		<div class="span12">
        	 			<div class="hero-unit">
-       	 			<h2>OPTIMUS</h2>
+       	 			<h1>OPTIMUS</h1>
        	 			<h4 class="muted">Open Platform for Teaching Integrated Modeling and Urban Simulation</h4>
       	 			</div>	
-       	       	 	<ul class="nav nav-pills nav-stacked">
-       	 			<li class="active"><a href="#description">Project Description</a></li>
-       	 			<li><a href="#resources">Project Resources</a></li>
-       	 			<li><a href="#contact">Contact Information</a></li>
+       	 		</div>
+	   	 	</div>
+       	 	<div class="row-fluid">
+				<div class="span3">
+			   	 	<ul class="nav nav-pills nav-stacked">
+			 			<li class="active"><a href="#description">Project Description</a></li>
+       	 				<li><a href="#resources">Project Resources</a></li>
+       	 				<li><a href="#contact">Contact Information</a></li>
 	   	 			</ul>
-	   	 			<a href="http://ccnmtl.columbia.edu" target="_blank"><img src="img/ccnmtl.png" /></a>
 	   	 		</div>
-       	 		<div class="span8">
+       	 		<div class="span9">
    	 				<section id="description">
        	 			<h2>Project Description</h2>
 					<p>The OPTIMUS (Open Platform for Teaching Integrated Modeling & Urban Simulation) project was a joint effort of the Department of Earth & Environmental Engineering, the Department of Civil Engineering & Engineering Mechanics and CCNMTL to create a platform for modeling urban and environmental systems. The OPTIMUS prototype provided educators with a new tool for teaching students about complex urban systems as well as fundamental modeling concepts and techniques.</p>
@@ -45,7 +48,7 @@
        	 			<h2>Project Resources</h2>
  			       	 	<div class="row-fluid">
        	 				<div class="span8">
-       	 				<i class="icon-file"></i>Optimus Tutorials
+       	 				Optimus Tutorials
        	 				</div>
        	 				<div class="span4">
        	 				<button class="btn btn-primary" type="button">Download</button>
@@ -53,13 +56,23 @@
        	 				</div>
        	  			</section>
        	  		</div>
+       	  		 		
        	  	</div>
-		</div>
+       	 	<div class="row-fluid">
+       	 		<div class="span12">
+	   	 			<a href="http://ccnmtl.columbia.edu" target="_blank"><img src="img/ccnmtl.png" class="pull-right" /></a>
+      	 		</div>
+       	 	</div>
+       	 </div>
+	</div>
 		<script src="js/jquery-1.8.2.min.js"></script>        
 		<script src="js/bootstrap.js"></script>
 		 <script>
         $(document).ready(function() {
-	      alert("document ready occurred!");
+	 	    $('.nav li a').on('click', function() {
+   				 $(this).parent().parent().find('.active').removeClass('active');
+ 				   $(this).parent().addClass('active');
+			});
 		});        
         </script>
 </body>
