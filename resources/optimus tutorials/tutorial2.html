@@ -1,0 +1,1478 @@
+<!-- saved from url=(0022)http://internet.e-mail -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>OPTIMUS Tutorial 2</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+<!--
+.font {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+-->
+</style>
+</head>
+
+<body>
+<div align="center"></div>
+<table width="600" border="0" align="left" cellpadding="20" class="font">
+  <tr> 
+    <td><div align="center"><font size="4">OPTIMUS TUTORIAL 2<br>
+        <font size="3">Open Teaching Platform for Teaching Integrated Modeling 
+        and Urban Simulation </font></font></div></td>
+  </tr>
+  <tr> 
+    <td> 
+      <p>Welcome to the Second OPTIMUS Tutorial.  This tutorial will walk 
+you through the process of experimenting with a basic predator-prey 
+simulation on OPTIMUS.   </p>
+      <h5>ASSUMPTIONS</h5>
+      <p>This tutorial assumes you have already completed tutorial 1 	
+      <p>The tutorial assumes you have already read about the OPTIMUS architecture 
+        (if not try <a href="http://www2.ccnmtl.columbia.edu/optimus/architecture.xml" target="_blank">here</a>). 
+      </p>
+      <p>It also assumes you already know a bit about the programming language 
+        Python (if not, try <a href="http://www2.ccnmtl.columbia.edu/optimus_wiki/node.pl?PythonResources" target="_blank">here</a>).</p>	 		 	
+      <p>For now, OPTIMUS works on Windows and UNIX based machines 
+only.</p>
+
+      <h5>ASSIGNMENT</h5>
+      <p>For this second tutorial, we're going to look at and alter a 
+simulation involving a basic predator-prey simulation.  The simulation 
+consists of three federate life-forms: a stationary food source 
+(verdefood), creatures that consume this food source (the verdes), and 
+creatures that prey on the verdes (the verdeeaters).  All three of 
+these federates are agents, in that they have a basic set of rules 
+that determine their behavior based on their environment (the verdes 
+move towards the verdefood, and the verdeeaters move towards the 
+verdes). Your job is to learn the basics of running a multi-agent 
+simulation on OPTIMUS by making simple code alterations to various 
+elements of the simulation to achieve a variety of different states.</p>
+      <h5>GET THE FILES YOU NEED</h5>
+      <p>Visit the OPTIMUS website if you haven't done so already: <a href="http://ccnmtl.columbia.edu/projects/optimus/" target="_blank">http://ccnmtl.columbia.edu/projects/optimus/</a> 
+        and follow the instructions to download and install Python and OPTIMUS.</p>
+      <h5>RUN OPTIMUS</h5>
+      <p>Try running OPTIMUS by clicking on the Optimus.py file.  Load 
+the following federates through the load federate function under the 
+Federates menu: verdefood, verde, and verdeeater (load in that order). 
+ verdefood should be in the simulations/tutorial_2/verdefood folder 
+(select the federate.xml file in each folder), verde should be in 
+simulations/tutorial_2/verde, etc... <br><br>
+
+Alternatively you can load the simulation as a whole using the load 
+simulation function under the Simulations menu. Select the 
+simulation.xml file within the tutorial_2 folder.<br><br>
+
+Hit the Start button and see what you've got.  You should see green 
+blobs (the verdes) moving towards stationary red blobs (the 
+verdefood), and blue blobs  (verdeeaters) moving to, and consuming, 
+the green blobs (verdes). 
+</p>
+      <p align="center"><br>
+        <img src="Optimusshot1.JPG" width="400" height="347"></p>
+      <p>If the simulation appears to be working properly, proceed to the next 
+        section below.</p>
+      <p>If for some reason the simulation does not run, chances are something 
+        went wrong with the installation:</p>
+      <p>The <strong>most common mistake</strong> in the installation is that 
+        students forget to copy the csv.pyd file to the right directory (Step 
+        6 in the instructions). We recommend returning to the installation instructions 
+        and checking to make sure you followed all the steps.</p>
+
+      <h5>EXPLORE THE FILE STRUCTURE</h5>
+      <p>Find your way to your OPTIMUS directory (or folder). Open it 
+up.</p>
+      <p>Open the Simulations folder. In it you will see a directory
+called &#8216;tutorial 2 &#8217;.
+        Open this directory.</p>      
+
+<h5>THE VERDEFOOD FEDERATE</h5>
+      <p>We are going to start by looking at the verdefood federate 
+that acts as a stationary food source for the verdes.</p>
+<p>Open the verdefood directory and open the federate.xml file with a 
+text editor</p>
+<p>This should look familiar from the federate.xml files you dealt with 
+in the first tutorial
+</p>
+      
+      
+      <blockquote>
+        <p><font face="monospace">&lt;?xml version=&quot;1.0&quot;?&gt;<br>
+          &lt;federate name=&quot;verdefood&quot; 
+system=&quot;verdefood&quot;&gt;</font></p>
+      </blockquote>
+      <p>Here there are two attributes.  In addition to the number 
+federate, which you have dealt with in tutorial 1, there is an 
+"initial energy tokens" attribute.  In this simulation, each federate 
+has a number of energy tokens, which act like stored energy.  When a 
+federate performs a task, it loses energy tokens, when it eats, it 
+gains energy tokens.  </p>
+      <blockquote> 
+        <p><font face="monospace">&lt;attributes&gt;<br>
+          &lt;attribute name=&quot;number&quot; 
+varname=&quot;number&quot; 
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot; 
+default=&quot;3&quot;label=&quot;number&quot;/&gt;
+	
+<p>&lt;attribute name=&quot;initial energy tokens&quot;
+varname=&quot;initial_tokens&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;50&quot;label=&quot;initial energy tokens&quot;/&gt;
+</p>
+<br>
+          &lt;/attributes&gt;
+        <p><font face="monospace">&lt;handlers&gt;<br>
+          &lt;event type=&quot;init&quot; file=&quot;init.py&quot;/&gt;<br>
+          &lt;event type=&quot;tick&quot; file=&quot;tick.py&quot;/&gt;<br>
+          &lt;/handlers&gt;
+		/federate&gt;</font></p>
+      </blockquote>
+
+      
+      <p>Now let&#8217;s look at the init.py file
+
+      <blockquote> 
+        <p><font face="monospace">import Numeric<br>
+          from Numeric import *<br>import math<br>
+          import MLab</font></p>
+      </blockquote>
+      <p>These variables hold the values for the x-axis and y-axis to 
+be used in the simulation.  Thus although the display seems to show 
+creatures all over the map, there are really only 12 * 12 = 144 
+different grid points on the display.  As you will see later, these 
+points are then scaled to appear to cover the whole display.  The 
+reason the entire display grid is not used is that the simulation is 
+very computationally intensive, and takes too much time if the x-axis 
+and y-axis are too large.</p>
+      <blockquote> 
+        <p><font face="monospace">
+          self.x_axis = 12<br>
+          self.y_axis = 12<br>
+          </font></p>
+      </blockquote>
+      <p>This generates 2 arrays of random numbers distributed 
+uniformly on [0,x-axis] and [0,y-axis], respectively, with the 
+MLab.rand() function.  Each array holds a number of positions, one for 
+each of the initial creatures.  The values in these arrays are then 
+converted to integers by a for loop, and these integral values are the 
+starting grid coordinates for the verdefood creatures.  For example, 
+(self.x[0],self.y[0]) represents the coordinate location of the 0th 
+verdefood creature.</p>
+  <blockquote>
+        <p><font face="monospace">
+        self.x = MLab.rand(self.number) * self.x_axis<br>
+	self.y = MLab.rand(self.number) * self.y_axis<br>
+	      for j in range(self.number):<br>
+	<blockquote>
+	<p><font face="monospace">
+	self.x[j] = int(self.x[j])<br>
+	self.y[j] = int(self.y[j])<br>
+        </font></p>
+	</blockquote>
+          </font></p>
+      </blockquote>
+      <p>Here you see the self.pos_grid array.  This is a 
+3-dimensional array of dimensions (x-axis by y-axis by 2).  Thus there 
+is a 2-element array for each grid coordinate.  This first element 
+holds the age of the creature occupying that grid coordinate, or zero 
+is none is present, and the second element holds the energy token 
+number of the creature occupying that grid coordinate, or zero if none 
+is present.  The for loops work by cycling through every grid 
+coordinate, and for each grid coordinate cycling through the self.x 
+and self.y arrays and checking if any creature's position (whose 
+x-coordinate is stored in self.x and y-coordinate is stored in self.y) 
+is that grid coordinate.  If so, it initializes the age of that grid 
+coordinate to 0, and sets the energy token number to the 
+initial_tokens value set in the federate.xml file.</p>
+<blockquote>
+        <p><font face="monospace">
+        self.pos_grid = zeros((self.x_axis,self.y_axis,2))<br>
+	for i in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for j in range(self.y_axis):<br>
+        <blockquote>
+	<p><font face = "monospace">
+	for k in range(self.number):<br>
+	<blockquote>
+	<p><font face = "monospace">
+	if self.x[h] == i and self.y[k] == j:
+	<blockquote>
+	<p><font face = "monospace">
+	self.pos_grid[i][j][0] = 0<br>
+	self.pos_grid[i][j][1] = self.initial_tokens<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+	 </font></p>
+      </blockquote>
+
+<p>Next, open the tick.py file<br><br><br>
+
+This first for loop cycles through each grid coordinate in the pos_grid 
+array and updates the 2-element array. The first element of the array, the 
+verdefood's age, is incremented by one with each clock tick.  The second 
+element of the array, the verdefood's energy token count, is also 
+incremented by one, since the verdefood grows with every tick, just like 
+plants on earth.</p>
+
+<blockquote>
+        <p><font face="monospace">
+        for i in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for j in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.pos_grid[i][j][1] != 0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        self.pos_grid[i][j][0] +=1<br>
+	self.pos_grid[i][j][1] +=1<br>
+        <blockquote>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+	 </blockquote>
+          </font></p>
+</blockquote>
+          </font></p>
+</blockquote>
+	</font></p>
+     <p> This next code chunk creates the desire_grid.  This is 
+another grid of dimensions x-axis by y-axis, and holds one value for 
+each grid coordinate.  The desirability array is how the verdes 
+determine where to move, as you will see later.  The greater the 
+desirability number at a given grid-point, the closer that point is to 
+good food sources for the verdes, and thus the more desirable that 
+spot is for the verdes.  The desirability of the i,jth coordinate is 
+calculated by going through the entire grid, and at each grid spot 
+accumulating the ratio of the energy token count of the food item at 
+that grid divided by the distance from that grid to the i,jth 
+coordinate.  Since the energy token count of an empty grid spot is 
+zero, only occupied grid coordinates take part in the sum.  Think 
+about why this makes sense.  The greater the energy token count of a 
+food source, the more food it can provide, the more desirable it is.  
+The farther away a food source is, the harder it is to get to from 
+i,,j.  Thus desirability of i,j is directly proportional to the  
+energy token counts of the available food sources  and inversely 
+proportional to the distances of the foodsources from i,j  Thus  if 
+there are lots of food sources with high energy token counts near the 
+grid coordinate i,j then the desirability of i,j will be high.</p>
+
+<blockquote>
+        <p><font face="monospace">
+        self.desire_grid = MLab.rand(self.x_axis,self.y_axis)*0<br>
+        for x in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for y in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+	value = 0<br>
+        for x2 in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        for y2 in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        value += self.pos_grid[x2][y2][1] / (1 + 
+math.sqrt(pow(abs(x-x2),2) + pow(abs(y-y2),2)))<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+	self.desire_grid[x][y] = value
+	 </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+	</blockquote>
+          </font></p>	
+
+      <h5>THE VERDE FEDERATE</h5>
+      <p>Open the federate.xml file for the verde federate.  It should 
+look very similar to the federate.xml file for the verdefood federate.</p>
+	
+      <blockquote>
+        <p><font face="monospace">&lt;?xml 
+version=&quot;1.0&quot;?&gt;<br>
+          &lt;federate name=&quot;verde&quot;
+system=&quot;verde&quot;&gt;</font></p>
+      </blockquote>
+      <p>However, there are several new attributes.  In addition to 
+number and initial energy tokens, there are two new attribute 
+variables: lifespan and reproductive age.  The lifespan is the number 
+of simulation ticks before a verde dies of old age.  Reproductive age 
+is the number of simulation ticks a verde must have been alive before 
+it can reproduce with a partner.</p>
+
+<blockquote>
+        <p><font face="monospace">&lt;attributes&gt;<br>
+          &lt;attribute name=&quot;number&quot;
+varname=&quot;number&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;5&quot;label=&quot;number&quot;/&gt;
+
+<p>&lt;attribute name=&quot;initial energy tokens&quot;
+varname=&quot;initial_tokens&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;50&quot;label=&quot;initial energy tokens&quot;/&gt;
+</p>
+        <p><font face="monospace">
+          &lt;attribute name=&quot;lifespan&quot;
+varname=&quot;lifespan&quot;
+          type=&quot;integer&quot;min=&quot;1&quot;max=&quot;1000&quot;
+default=&quot;20&quot;label=&quot;lifespan&quot;/&gt;
+
+<p>&lt;attribute name=&quot;reproductive age&quot;
+varname=&quot;rep_age&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;3&quot;label=&quot;reproductive age&quot;/&gt;
+</p>
+<br>
+          &lt;/attributes&gt;
+        <p><font face="monospace">&lt;handlers&gt;<br>
+          &lt;event type=&quot;init&quot; 
+file=&quot;init.py&quot;/&gt;<br>
+          &lt;event type=&quot;tick&quot; 
+file=&quot;tick.py&quot;/&gt;<br>
+          &lt;/handlers&gt;
+                /federate&gt;</font></p>
+      </blockquote>
+
+      <p>Next, we will examine the init.py file.  Again, this should 
+look very similar to the init.py file for the verdefood.  In fact, it 
+is exactly the same.</p>
+<blockquote>
+        <p><font face="monospace">import Numeric<br>
+          from Numeric import *<br>import math<br>
+          import MLab</font></p>
+      </blockquote>
+  <blockquote>
+        <p><font face="monospace">
+          self.x_axis = 12<br>
+          self.y_axis = 12<br>
+          </font></p>
+      </blockquote>
+ <blockquote>
+        <p><font face="monospace">
+        self.x = MLab.rand(self.number) * self.x_axis<br>
+        self.y = MLab.rand(self.number) * self.y_axis<br>
+              for j in range(self.number):<br>
+        <blockquote>
+        <p><font face="monospace">
+        self.x[j] = int(self.x[j])<br>
+        self.y[j] = int(self.y[j])<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+<blockquote>
+        <p><font face="monospace">
+        self.pos_grid = zeros((self.x_axis,self.y_axis,2))<br>
+        for i in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for j in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        for k in range(self.number):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.x[h] == i and self.y[k] == j:
+        <blockquote>
+        <p><font face = "monospace">
+        self.pos_grid[i][j][0] = 0<br>
+        self.pos_grid[i][j][1] = self.initial_tokens<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+         </font></p>
+      </blockquote>
+      <p>The tick.py file, however, is radically different (since the 
+verdes are mobile while the verdefood are stationary).</p>
+<blockquote>
+        <p><font face="monospace">import Numeric<br>
+          from Numeric import *<br>import math<br>
+          import MLab</font></p>
+      </blockquote>
+      <p>Already one notes a difference in the first for loops.  There 
+is an if statement saying if the first array element of self.pos_grid, 
+which represents the age, is greater than the lifespan, or the second 
+array element (which represents the energy token number) is less than 
+one, the creature dies, either of old age or starvation 
+(respectively).  Also, there is an else statement which dictates that 
+if the creature at that grid does not die, then its energy token count 
+decreases by one (due to the energy used in the last turn) and its age 
+is incremented</p>
+
+<blockquote>
+        <p><font face="monospace">
+        for i in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for j in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.pos_grid[i][j][1] > 0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.pos_grid[i][j][0] > self.lifespan or self.pos_grid[i][j][1] <= 1:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        self.pos_grid[i][j] = [0,0]<br>
+ </font></p>
+        </blockquote>
+        else:<br>
+	<blockquote>
+        <p><font face = "monospace">
+        self.pos_grid[i][j][1] -= 1<br>
+	self.pos_grid[i][j][0] += 1<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+</font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+</font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+
+     
+        <p>The desire grid calculations are the same</p>
+<blockquote>
+        <p><font face="monospace">
+        self.desire_grid = MLab.rand(self.x_axis,self.y_axis)*0<br>
+        for x in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for y in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        value = 0<br>
+        for x2 in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        for y2 in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        value += self.pos_grid[x2][y2][1] / (1 + 
+math.sqrt(pow(abs(x-x2),2) + pow(abs(y-y2),2)))
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        self.desire_grid[x][y] = value
+         </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+
+
+      <p>The already_grid keeps track of whether the creature at 
+grid-coordinate x,y has already acted during this tick.  This is 
+important, since if the creature at 5,5 moves to 5,6 and the 
+already_grid doesn't track this, then the creature will be called on 
+to move again when grid spot 5,6 is called on, for the program would 
+not realize that the creature at 5,6 is really the creature that moved 
+from 5,5 , not a separate creature.</p>
+
+ <blockquote>
+        <p><font face = "monospace">
+        self.already_grid = zeros((self.x_axis,self.y_axis))
+        </font></p>
+        </blockquote>
+
+      <p>These lines allow the tick.py file of the verdes to import 
+variables from other places.  As we said earlier, the verdes use the 
+verdefood's desire_grid to determine where to move - thus it is 
+necessary to import this grid - it is named foodgrid.  Also, the 
+other_pos_grid holds the locations of the verdeeaters, which we will 
+discuss later. </p>
+      <blockquote> 
+        <p><font face="monospace">
+      
+	foodgrid = 
+self.organizer.get_var("verdefood","desire_grid",[0])<br>                
+	self.food_pos_grid = 
+self.organizer.get_var("verdefood","pos_grid",[0])<br>                
+	self.other_pos_grid = 
+self.organizer.get_var("verdeeater","pos_grid",[0])<br>
+
+	</font></p>
+      </blockquote>
+
+      <p>This for loop looks at the foodgrid values to the north, 
+south, east, and west of each occupied grid coordinate, determines the 
+most desirable by comparing the desirability values of those 
+coordinates, and then sets the target to be the neighboring cell in 
+this direction. </p>
+
+<blockquote>
+        <p><font face="monospace">
+        for x in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for y in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        e = 0<br>
+	w = 0<br>
+	n = 0<br>
+	s = 0<br>
+	max = 0<br>
+	target = [0,0]<br>
+	if self.already_grid[x][y]==0 and self.pos_grid[x][y][1]!=0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if x>0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        e = foodgrid[x-1][y]<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+	if e>max:<br>
+	<blockquote>
+	<p><font face = "monospace">
+	max = e<br>
+	target = [x-1,y]<br>
+      </blockquote>
+          </font></p>
+	if x&lt;self.x_axis-1:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        w = foodgrid[x+1][y]<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+        if w>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = w<br>
+        target = [x+1,y]<br>
+      </blockquote>
+          </font></p>
+	  if y&lt;0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        s = foodgrid[x][y-1]
+        </font></p>
+        </blockquote>
+          </font></p>
+        if s>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = s<br>
+        target = [x,y-1]<br>
+      </blockquote>
+          </font></p>
+	  if y&lt;self.y_axis-1:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        n = foodgrid[x][y+1]<br>
+        </blockquote>
+          </font></p>
+        if n>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = n<br>
+        target = [x,y+1]<br>
+      </blockquote>
+          </font></p>
+        
+         </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+      <p>This statement makes sure that if there are no more food 
+sources on the map, in which case all desirability values are zero, 
+the creatures remain where they are, and don't start going crazy</p>
+
+      <blockquote> 
+        <p><font face="monospace">
+	if max ==0:
+	<blockquote>
+        <p><font face="monospace">
+	target=[x,y]
+	</font></p></blockquote>
+	  </font></p></blockquote>
+      <p> This next chunk of code dictates the verdes' behavior 
+depending on what inhabits the chosen target grid coordinate.  If 
+self.food_pos_grid is 0 there and self.other_pos_grid is 0 there then 
+that grid is not occupied by a verdefood or verdeeater.  That leaves 
+two cases.</p>
+      <blockquote> 
+        <p><font face="monospace">
+	                if 
+self.food_pos_grid[target[0]][target[1]][1] == 0 and 
+self.other_pos_grid[target[0]][target[1]][1]
+	     == 0:
+</font></p></blockquote>
+        <p>Case 1 is that the target square is completely empty, in 
+which case the verde's old coordinate grid spot is given the 2-element 
+array [0,0] and the grid spot to which it is moving takes on its age 
+and energy token count values.</p>
+<blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace">
+                    if self.pos_grid[target[0]][target[1]][1] == 0:<br>
+<blockquote>
+        <p><font face="monospace">
+self.pos_grid[target[0]][target[1]] = 
+copy.deepcopy(self.pos_grid[x][y])<br>
+                        self.pos_grid[x][y] = [0,0]<br>
+                        self.already_grid[x][y] = 1<br>
+                        self.already_grid[target[0]][target[1]] = 1<br>
+  </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+      
+      <p>Case2 is that the target is occupied by another verde.  In 
+this case if both the verde that is moving and the verde occupying the 
+target grid coordinate are both of reproductive age, a point is 
+randomly chosen on the grid, and if that coordinate is empty, a new 
+verde is born there.   </p>
+
+<blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace">
+                    elif (target[0] != x or target[1] != y) 
+and (target[0] != 0 or target[1] != 0) and 
+	         self.pos_grid[x][y][0] > self.rep_age and 
+self.pos_grid[target[0]][target[1]][0] > self.rep_age:<br>
+<blockquote>
+        <p><font face="monospace">
+                        z1 = MLab.rand(1) * self.x_axis<br>
+                        z2 = MLab.rand(1) * self.y_axis<br>
+                        z1 = int(z1[0])<br>
+                        z2 = int(z2[0])<br>
+ if self.food_pos_grid[z1][z2][1] == 0 and 
+self.other_pos_grid[z1][z2][1]==0 and 
+	              self.pos_grid[z1][z2][1]==0:<br>
+<blockquote>
+        <p><font face="monospace">
+self.pos_grid[z1][z2][0] = 0<br>
+ </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+<p>The baby's initial token count is the average of the token counts' of 
+its parents, so that in times of prosperity healthy babies are born and in 
+times of famine weak babies are born</p>
+
+<blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace"><blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace">
+self.pos_grid[z1][z2][1] = (self.pos_grid[x][y][1] + 
+		self.pos_grid[target[0]][target[1]][1])/2<br>
+
+
+</blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+
+<p>If this code is reached, it means that the original if statement was 
+false, and thus that either there is a verdefood or a verdeeater  in the 
+target spot.  This next code block addresses the case in which there is a 
+verdefood.  In this case, assuming the verdefood has energy tokens 
+remaining, the verdefood's energy token count is decremented by 1 and the 
+verde's energy count is incremented by 1, and thus the verde feeds on the 
+verdefood.</p>
+
+<blockquote>
+        <p><font face="monospace">
+                elif self.other_pos_grid[target[0]][target[1]] == 0:<br>
+<blockquote>
+        <p><font face="monospace">
+                    self.pos_grid[x][y][1] += 1<br>
+                    if self.food_pos_grid[target[0]][target[1]][1] > 0:<br>
+<blockquote>
+        <p><font face="monospace">
+                        self.food_pos_grid[target[0]][target[1]][1] -= 1<br>
+
+
+
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+
+     
+        <p>In this last case, if the target square is, to the dismay of 
+the verde, occupied by a verdeeater, the verde becomes paralyzed with fear 
+and remains where it is.  Thus a dummy action is executed, in effect doing 
+nothing.  </p>
+
+<blockquote>
+        <p><font face="monospace">
+else:<br>
+<blockquote>
+        <p><font face="monospace">
+temp="temp"
+    </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+ 
+
+    <h5>THE VERDEEATER FEDERATE</h5>
+
+  <p>Open the federate.xml file for the verdeeater federate.  It should
+look very similar to the federate.xml file for the verde federate.</p>
+
+      <blockquote>
+        <p><font face="monospace">&lt;?xml
+version=&quot;1.0&quot;?&gt;<br>
+          &lt;federate name=&quot;verde&quot;
+system=&quot;verde&quot;&gt;</font></p>
+      </blockquote>
+
+<blockquote>
+        <p><font face="monospace">&lt;attributes&gt;<br>
+          &lt;attribute name=&quot;number&quot;
+varname=&quot;number&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;2&quot;label=&quot;number&quot;/&gt;
+<p>&lt;attribute name=&quot;initial energy tokens&quot;
+varname=&quot;initial_tokens&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;50&quot;label=&quot;initial energy tokens&quot;/&gt;
+</p>
+        <p><font face="monospace">
+          &lt;attribute name=&quot;lifespan&quot;
+varname=&quot;lifespan&quot;
+          type=&quot;integer&quot;min=&quot;1&quot;max=&quot;1000&quot;
+default=&quot;20&quot;label=&quot;lifespan&quot;/&gt;
+
+<p>&lt;attribute name=&quot;reproductive age&quot;
+varname=&quot;rep_age&quot;
+          type=&quot;integer&quot;min=&quot;0&quot;max=&quot;1000&quot;
+default=&quot;3&quot;label=&quot;reproductive age&quot;/&gt;
+</p>
+<br>
+
+
+          &lt;/attributes&gt;
+        <p><font face="monospace">&lt;handlers&gt;<br>
+          &lt;event type=&quot;init&quot;
+file=&quot;init.py&quot;/&gt;<br>
+          &lt;event type=&quot;tick&quot;
+file=&quot;tick.py&quot;/&gt;<br>
+</font></p>
+      </blockquote></font></p>
+      </blockquote>
+<p>The only difference is that this federate.xml file has two extra
+events, one called unload.py which will be used to clear out the
+simulation if reset is pressed, and one called display.py to display the
+simulation graphically.</p>
+<blockquote>
+        <p><font face="monospace">
+  &lt;event type=&quot;display&quot;
+file=&quot;display.py&quot;/&gt;<br>
+          &lt;event type=&quot;unload&quot;
+file=&quot;unload.py&quot;/&gt;<br>
+          &lt;/handlers&gt;
+                /federate&gt;</font></p>
+      </blockquote>
+
+<p>The init.py file is very similar to that of the verdes</p>
+
+<blockquote>
+        <p><font face="monospace">import Numeric<br>
+          from Numeric import *<br>import math<br>
+          import MLab</font></p>
+      </blockquote>
+  <blockquote>
+        <p><font face="monospace">
+          self.x_axis = 12<br>
+          self.y_axis = 12<br>
+          </font></p>
+      </blockquote>
+ <blockquote>
+        <p><font face="monospace">
+        self.x = MLab.rand(self.number) * self.x_axis<br>
+        self.y = MLab.rand(self.number) * self.y_axis<br>
+              for j in range(self.number):<br>
+        <blockquote>
+        <p><font face="monospace">
+        self.x[j] = int(self.x[j])<br>
+        self.y[j] = int(self.y[j])<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+<blockquote>
+        <p><font face="monospace">
+        self.pos_grid = zeros((self.x_axis,self.y_axis,2))<br>
+        for i in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for j in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        for k in range(self.number):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.x[h] == i and self.y[k] == j:
+        <blockquote>
+        <p><font face = "monospace">
+ self.pos_grid[i][j][0] = 0<br>
+        self.pos_grid[i][j][1] = self.initial_tokens<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+         </font></p>
+      </blockquote>
+
+      <p>One difference with the verde init.py is that here 
+self.food_pos_grid holds the positions of the verdes, and 
+self.food2_pos_grid holds the positions of the verdefood.  They must be 
+declared in the init.py file, unlike in verde where they were declared 
+in tick.py, to interact with the display.py file</p>
+ <blockquote>
+        <p><font face="monospace">
+	self.food_pos_grid = 
+self.organizer.get_var("verde","pos_grid",[0])<br>    
+	self.food2_pos_grid = 
+self.organizer.get_var("verdefood","pos_grid",[0])<br>
+   </blockquote>
+         </font></p>
+<p>The self.dots array is initialized and will be used in display.py</p>
+<blockquote>
+        <p><font face="monospace">
+        self.dots=[]</blockquote>
+         </font></p>
+ 
+
+      <p>Similarly, the tick.py file is very similar to that of the 
+verdes and looks as follows:<br><br>
+
+Most of the following code is identical to what appears in the tick.py 
+for verde and thus will not be re-explained.  The verde data is 
+replaced by the verdeeater data and the verdefood data is replaced by 
+that of the verdes.  Thus the verdeeaters decide where to move based 
+on the desirability matrix of the verdes, mate if they are to move 
+onto a square occupied by a verdeeater, and consume if moving onto a 
+square containing a verde.
+</p>
+
+<blockquote>
+        <p><font face="monospace">import Numeric<br>
+          from Numeric import *<br>import math<br>
+          import MLab</font></p>
+      </blockquote>
+<blockquote>
+        <p><font face="monospace">
+        for i in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for j in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.pos_grid[i][j][1] > 0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if self.pos_grid[i][j][0] > self.lifespan or 
+self.pos_grid[i][j][1] <= 1:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        self.pos_grid[i][j] = [0,0]<br>
+ </font></p>
+        </blockquote>
+        else:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        self.pos_grid[i][j][1] -= 1<br>
+        self.pos_grid[i][j][0] += 1<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+</font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+</font></p>
+     </blockquote>
+          </font></p>
+      </blockquote>
+<p><font face="monospace">
+ 
+<blockquote>
+        <p><font face = "monospace">
+        self.already_grid = zeros((self.x_axis,self.y_axis))
+        </font></p>
+        </blockquote>
+ <blockquote>
+        <p><font face="monospace">
+
+        foodgrid =
+self.organizer.get_var("verde","desire_grid",[0])<br>
+        self.food_pos_grid =
+self.organizer.get_var("verde","pos_grid",[0])<br>
+        self.food2_pos_grid =
+self.organizer.get_var("verdefood","pos_grid",[0])<br>
+
+        </font></p>
+      </blockquote>
+<blockquote>
+        <p><font face="monospace">
+        for x in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for y in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        e = 0<br>
+        w = 0<br>
+        n = 0<br>
+        s = 0<br>
+        max = 0<br>
+        target = [0,0]<br>
+        if self.already_grid[x][y]==0 and self.pos_grid[x][y][1]!=0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        if x>0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        e = foodgrid[x-1][y]<br>
+        </font></p>
+</blockquote>
+          </font></p>
+        if e>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = e<br>
+        target = [x-1,y]<br>
+      </blockquote>
+          </font></p>
+        if x&lt;self.x_axis-1:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        w = foodgrid[x+1][y]<br>
+        </font></p>
+        </blockquote>
+          </font></p>
+        if w>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = w<br>
+  target = [x+1,y]<br>
+      </blockquote>
+          </font></p>
+          if y&lt;0:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        s = foodgrid[x][y-1]
+        </font></p>
+        </blockquote>
+          </font></p>
+        if s>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = s<br>
+        target = [x,y-1]<br>
+      </blockquote>
+          </font></p>
+          if y&lt;self.y_axis-1:<br>
+        <blockquote>
+        <p><font face = "monospace">
+ n = foodgrid[x][y+1]<br>
+        </blockquote>
+          </font></p>
+        if n>max:<br>
+        <blockquote>
+        <p><font face = "monospace">
+        max = n<br>
+        target = [x,y+1]<br>
+      </blockquote>
+          </font></p>
+
+         </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+<blockquote>
+        <p><font face="monospace">
+        if max ==0:
+        <blockquote>
+        <p><font face="monospace">
+        target=[x,y]
+        </font></p></blockquote>
+          </font></p></blockquote>
+<blockquote>
+        <p><font face="monospace">
+                        if
+self.food_pos_grid[target[0]][target[1]][1] == 0 and
+self.food2_pos_grid[target[0]][target[1]][1]
+             == 0:
+</font></p></blockquote>
+<blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace">
+                    if self.pos_grid[target[0]][target[1]][1] == 0:<br>
+<blockquote>
+        <p><font face="monospace">
+self.pos_grid[target[0]][target[1]] =
+copy.deepcopy(self.pos_grid[x][y])<br>
+                        self.pos_grid[x][y] = [0,0]<br>
+                        self.already_grid[x][y] = 1<br>
+                        self.already_grid[target[0]][target[1]] = 1<br>
+  </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+
+<blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace">
+                    elif (target[0] != x or target[1] != y)
+and (target[0] != 0 or target[1] != 0) and
+                 self.pos_grid[x][y][0] > self.rep_age and
+self.pos_grid[target[0]][target[1]][0] > self.rep_age:<br>
+<blockquote>
+        <p><font face="monospace">
+                        z1 = MLab.rand(1) * self.x_axis<br>
+                        z2 = MLab.rand(1) * self.y_axis<br>
+                        z1 = int(z1[0])<br>
+                        z2 = int(z2[0])<br>
+ if self.food_pos_grid[z1][z2][1] == 0 and
+self.food2_pos_grid[z1][z2][1]==0 and
+                      self.pos_grid[z1][z2][1]==0:<br>
+<blockquote>
+        <p><font face="monospace">
+self.pos_grid[z1][z2][0] = 0<br>
+ </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+      </blockquote>
+
+<blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace"><blockquote>
+        <p><font face="monospace">
+<blockquote>
+        <p><font face="monospace">
+self.pos_grid[z1][z2][1] = (self.pos_grid[x][y][1] +
+                self.pos_grid[target[0]][target[1]][1])/2<br>
+
+
+</blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+<blockquote>
+        <p><font face="monospace">
+                elif self.food2_pos_grid[target[0]][target[1]] == 0:<br>
+ </blockquote>
+          </font></p>
+<p>The major difference between the verdeeater and the verde is seen here.  
+When the verdeeater occupies a square containing a verde, it devours the 
+verde in its entirety.  The verde is removed from the map.  Also, the 
+verdeeater gains a number of energy tokens proportional to the number of 
+energy tokens of the verde it ate.</p>
+ <blockquote>
+        <p><font face="monospace">
+ <blockquote>
+        <p><font face="monospace">
+self.pos_grid[x][y][1] += (self.food_pos_grid[target[0]][target[1]][1]/10 
++ 1)<br>
+              		          self.pos_grid[target[0]][target[1]] = 
+copy.deepcopy(self.pos_grid[x][y])<br>
+	                        self.pos_grid[x][y] = [0,0]<br>
+              		          self.food_pos_grid[target[0]][target[1]] 
+= [0,0]<br>
+</blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+<p>Well, the verdes do have one thing going for them.  The verdeeaters 
+cannot traverse the verdeeater squares.  Thus if the target square of a 
+verdeeater is occupied by a tree, the verdeeater becomes immobilized and 
+remains on its current grid coordinate.  Again, a dummy action is 
+performed.</p>
+<blockquote>
+        <p><font face="monospace">
+ 
+else:<br>
+<blockquote>
+        <p><font face="monospace">
+	temp="temp"<br>
+
+</blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+
+<p>The verdeeater federate also contains display.py, the file that 
+displays the current state of the simulation graphically after every clock 
+tick</p><br><br>
+
+<p>This code clears whatever is currently on the canvas and reinitializes 
+the dots array, which holds the blob objects that are to be displayed
+</p>
+<blockquote>
+        <p><font face="monospace">
+
+for i in range(len(self.dots)):<br>
+<blockquote>
+        <p><font face="monospace">
+        self.canvas.delete(self.dots[i])<br>
+
+</blockquote>
+          </font></p>
+self.dots=[]
+        </blockquote>
+          </font></p>
+<p>These scaling values enable the actual grid coordinates to be 
+multiplied by a scaling factor that makes it appear that the simulation 
+grid is big enough to fill out the entire screen, while in fact the grid 
+coordinates are just spaced appropriately to make this appear to be the 
+case.</p>
+<blockquote>
+        <p><font face="monospace">
+        self.x_scaler = 550/self.x_axis<br>
+	self.y_scaler = 450/self.y_axis<br>
+
+</blockquote>
+          </font></p>
+<p>
+This for loop goes through the grid and tests the identity of each grid 
+coordinate.  If it is uninhabited, nothing is displayed.  If there is a 
+verde there (self.food_pos_grid != 0) then a green rectangle is printed.  
+The size of the rectangle is proportional to the number of energy tokens 
+the verde has.  Thus a healthy verde will appear larger.  Similarly, the 
+verdeeaters are made blue, and the verdefood are made red, and are 
+displayed as such. 
+</p>
+
+
+<blockquote>
+        <p><font face="monospace">
+for xx in range(0,self.x_axis):<br>
+<blockquote>
+        <p><font face="monospace">
+for yy in range(0,self.y_axis):<br>
+<blockquote>
+        <p><font face="monospace">
+if self.food_pos_grid[xx][yy][1]!=0:<br>
+<blockquote>
+        <p><font face="monospace">
+self.dots.append(self.canvas.create_rectangle(50+ self.x_scaler * 
+(xx-1),50 + 
+			self.y_scaler * (yy-1),50 + self.x_scaler * (xx - 
+(self.x_scaler-
+			1.0)/self.x_scaler),50 + self.y_scaler * (yy - 
+(self.y_scaler-1.0)/self.y_scaler),
+                                     	fill="green", outline = "green", 
+width = self.food_pos_grid[xx][yy][1]/10))
+
+
+
+</blockquote>
+          </font></p>
+elif self.pos_grid[xx][yy][1] != 0:
+<blockquote>
+        <p><font face="monospace">
+self.dots.append(self.canvas.create_rectangle(50 + self.x_scaler * 
+(xx-1),50 + 				self.y_scaler * (yy-1),50 + 
+self.x_scaler * (xx - (self.x_scaler-						
+1.0)/self.x_scaler),50 + self.y_scaler * (yy - 
+(self.y_scaler-1.0)/self.y_scaler),
+                                     	fill="blue", outline = "blue", 
+width = self.pos_grid[xx][yy][1]/7))
+
+
+        </blockquote>
+          </font></p>
+elif self.food2_pos_grid[xx][yy][1]!=0:
+
+<blockquote>
+        <p><font face="monospace">
+self.dots.append(self.canvas.create_rectangle(50 + self.x_scaler * 
+(xx-1),50 + 				self.y_scaler * (yy-1),50 + 
+self.x_scaler * (xx - (self.x_scaler-						
+1.0)/self.x_scaler),50 + self.y_scaler * (yy - 
+(self.y_scaler-1.0)/self.y_scaler),
+	                              fill="red", outline = "red", width = 
+self.food2_pos_grid[xx][yy][1]/10))
+                    
+
+
+      </blockquote>
+          </font></p>
+
+
+ </blockquote>
+          </font></p>
+
+ </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+
+<p>Lastly, the unload.py file looks as follows, and is called to remove 
+the current simulation so one can start anew when the reset button is 
+pressed.</p>
+
+
+
+ <blockquote>
+        <p><font face="monospace">
+for v in range(len(self.dots)):
+ <blockquote>
+        <p><font face="monospace">
+self.canvas.delete(self.dots[v])
+ </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+
+
+ <h5>RUN OPTIMUS</h5>
+
+<p>Now that we've reviewed all of the federates needed for the simulation, 
+run OPTIMUS again.<br>
+Stop the simulation.  Go to the OPTIMUS interface menu and change the 
+federate attributes, then hit reset to restart the simulation with these 
+new values.  Try running the simulation using different numbers of the 
+different federates, different life spans and reproductive ages for the 
+different federates, etc.</p>
+  
+<table width="600" border="0" align="center">
+        <tr>
+          <td><div align="center"><img src="Optimusshot2.JPG" 
+></div></td>
+          <td><div align="center"><img src="Optimusshot3.JPG" 
+></div></td>
+
+        </tr>
+      </table>
+
+<p>Make note of how changing different variables, while keeping the rest 
+the same, changes the outcome of the simulation (different outcomes could 
+be that the verdes overpopulate, or the verdeeaters overpopulate, or that 
+the verdefood is all that survives, or all the verdefoods are consumed, 
+etc).Are these changes in line with what you would expect?
+    
+ <h5>EXERCISES TO TRY</h5>
+      <p>1.  Find initial values for the federate variables such that</p>
+	<blockquote>
+        <p><font face="monospace">
+	a. In the end verdes overpopulate the screen only to die out<br><br>
+	b. In the end verdeeaters overpopulate the screen only to die out<br><br>
+	c. The simulation runs for at least one minute without all the 
+verdes and 
+	    verdeeaters dying out<br><br>
+	d. The verde population cycles from high to low to high at least 
+twice<br><br>
+	e. The verdeeater population cycles from high to low to high at 
+least
+twice<br><br>
+f. In your opinion, for the verdes, which variable seems to have the 
+greatest 
+	    impact: lifespan, initial energy tokens, or reproductive age .  
+Back this up with 
+	    numerical evidence from your simulations.<br>
+
+ </blockquote>
+          </font></p>
+
+      <p>2. In the development of simulations, one's choice of 
+algorithms is essential to having a 
+     simulation that runs quickly.  An algorithm is said to be T[f(n)] 
+ (Big Theta of f(n)) if, 
+     to put it simply, the algorithm takes roughly f(n) steps to run 
+on an input of size n.  
+     For example, if I am searching a list of size n for and adding up 
+the value of each 
+     element, starting from the first element and stopping only when I 
+reach the   
+     desired element, my algorithm will be  T[n], since I have to 
+search about the whole 
+     list of n elements.  If instead I am searching a 2-dimensional 
+array of size n x n and 
+     adding up the value of each element, my algorithm will be T[n^2], 
+since I would have
+     to search through n^2 elements.  
+</p>
+        <blockquote>
+        <p><font face="monospace">
+        a. Examine the code used to calculate the desirability array<br>
+
+	   <blockquote>
+        <p><font face="monospace">
+        self.desire_grid = MLab.rand(self.x_axis,self.y_axis)*0<br>
+        for x in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face="monospace">
+        for y in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        value = 0<br>
+        for x2 in range(self.x_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        for y2 in range(self.y_axis):<br>
+        <blockquote>
+        <p><font face = "monospace">
+        value += self.pos_grid[x2][y2][1] / (1 +
+math.sqrt(pow(abs(x-x2),2) + pow(abs(y-y2),2)))
+        </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        self.desire_grid[x][y] = value
+         </font></p>
+        </blockquote>
+          </font></p>
+      </blockquote>
+          </font></p>
+        </blockquote>
+          </font></p>
+       
+Find f(n) such that this algorithm is T[f(n)]
+ <blockquote>
+        <p><font face = "monospace">
+Hint: n is the size of selx.x_axis, and you can assume that self.x_axis = 
+self.y_axis<dr>
+  </blockquote>
+          </font></p>
+        b. Think of a different algorithm that could be used to calculate 
+the desirability 
+	    values faster, and write it out (you may write it in words if 
+you feel it is easier 
+	    than writing it in code).
+<blockquote>
+        <p><font face = "monospace">
+Hint: it is easier to estimate something than to calculate it out entirely
+  </blockquote>
+          </font></p>
+c. Find f(n) such that your algorithm is T[f(n)]  
+
+ </blockquote>
+          </font></p>
+  </blockquote>
+          </font></p>
+
+ </blockquote>
+          </font></p>
+<p>
+3.  Write code to give the simulation the following extra capabilities</p>
+        <blockquote>
+        <p><font face="monospace">
+        a. When a verde's target grid coordinate is occupied by a 
+verdeeater, it tries to run 
+	    away instead of staying where it is
+<br><br>
+        b. If there are no verdes on the screen, verdeeaters feed on 
+each other<br><br>
+       c. Make it so that the verde population is inflicted with a virus 
+at random time 
+	    intervals, killing all verdes under the age of 3<br><br>
+
+d. If a verdeeater's target is another verdeeater, the two verdeeaters 
+fight.  The 	   
+                  outcome is decided randomly, but so that if verdeeater A 
+has a energy tokens  
+                  and verdeeater B has b energy tokens the probability of 
+A winning the fight is 
+	    a / (a+b) and the probability of B winning the fight is b / 
+(a+b).  Have the loser of 
+	    the fight die and the winner lose 3 energy tokens.<br><br>
+<blockquote>
+        <p><font face="monospace">
+Hint:MLab.rand(1) creates an array with one random number between 0 
+		         and 1<br>
+
+
+
+ </blockquote>
+          </font></p>
+
+
+ </blockquote>
+          </font></p>
+ </blockquote>
+          </font></p>
+</td>
+  </tr>
+</table>
+</body>
+</html>
